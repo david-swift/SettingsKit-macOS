@@ -1,0 +1,26 @@
+Command line invocation:
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild -scheme SettingsKit
+
+User defaults from command line:
+    IDEPackageSupportUseBuiltinSCM = YES
+
+Resolve Package Graph
+
+Fetching from https://github.com/lukepistrol/SwiftLintPlugin (cached)
+
+Fetching from https://github.com/SFSafeSymbols/SFSafeSymbols (cached)
+
+Cloning local copy of package ‘SwiftLintPlugin’
+
+Checking out main of package ‘SwiftLintPlugin’
+
+Cloning local copy of package ‘SFSafeSymbols’
+
+Checking out 4.1.0 of package ‘SFSafeSymbols’
+
+
+Resolved source packages:
+  SwiftLintPlugin: https://github.com/lukepistrol/SwiftLintPlugin @ main
+  SettingsKit: /Users/david/Documents/Code/PigeonApp/SettingsKit
+  SFSafeSymbols: https://github.com/SFSafeSymbols/SFSafeSymbols @ 4.1.0
+
