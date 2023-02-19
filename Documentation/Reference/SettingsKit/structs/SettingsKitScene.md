@@ -41,6 +41,14 @@ var standardID: String
 
 The identifier of the settings tab with the keyboard shortcut.
 
+### `symbolVariant`
+
+```swift
+var symbolVariant: SymbolVariants
+```
+
+Modify the way symbols are displayed.
+
 ### `body`
 
 ```swift

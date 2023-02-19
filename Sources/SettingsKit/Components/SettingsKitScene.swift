@@ -18,6 +18,8 @@ struct SettingsKitScene<Content>: Scene where Content: Scene {
     var settings: [SettingsTab]
     /// The identifier of the settings tab with the keyboard shortcut.
     var standardID: String
+    /// Modify the way symbols are displayed.
+    var symbolVariant: SymbolVariants
 
     /// The scene.
     var body: some Scene {
@@ -40,6 +42,7 @@ struct SettingsKitScene<Content>: Scene where Content: Scene {
                     }
                 }
                 .frame(width: .settingsWidth, height: .settingsHeight)
+                .symbolVariant(symbolVariant)
             }
         }
         .commands {

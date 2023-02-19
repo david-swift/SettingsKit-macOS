@@ -11,7 +11,9 @@ import SwiftUI
 extension Scene {
 
     /// Adds the settings to a scene.
-    /// - Parameter _: The settings tabs of the settings window.
+    /// - Parameters:
+    ///   - symbolVariant: The way symbols should be displayed.
+    ///   - settings: The settings tabs in the settings window.
     /// - Returns: The scene with the settings.
     ///
     /// Use it as a modifier for a scene:
@@ -25,9 +27,12 @@ extension Scene {
     ///     }
     /// }
     /// ```
-    public func settings(@ArrayBuilder<SettingsTab> _ settings: () -> [SettingsTab]) -> some Scene {
+    public func settings(
+        symbolVariant: SymbolVariants = .none,
+        @ArrayBuilder<SettingsTab> _ settings: () -> [SettingsTab]
+    ) -> some Scene {
         let (settings, standardID) = getSettings(settings())
-        return SettingsKitScene(content: self, settings: settings, standardID: standardID)
+        return SettingsKitScene(content: self, settings: settings, standardID: standardID, symbolVariant: symbolVariant)
     }
 
     /// Converts the settings to an array containing only the valid settings.

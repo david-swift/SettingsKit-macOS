@@ -6,14 +6,19 @@ extension Scene
 ```
 
 ## Methods
-### `settings(_:)`
+### `settings(symbolVariant:_:)`
 
 ```swift
-public func settings(@ArrayBuilder<SettingsTab> _ settings: () -> [SettingsTab]) -> some Scene
+public func settings(
+    symbolVariant: SymbolVariants = .none,
+    @ArrayBuilder<SettingsTab> _ settings: () -> [SettingsTab]
+) -> some Scene
 ```
 
 Adds the settings to a scene.
-- Parameter _: The settings tabs of the settings window.
+- Parameters:
+  - symbolVariant: The way symbols should be displayed.
+  - settings: The settings tabs in the settings window.
 - Returns: The scene with the settings.
 
 Use it as a modifier for a scene:
@@ -32,7 +37,8 @@ WindowGroup {
 
 | Name | Description |
 | ---- | ----------- |
-| _ | The settings tabs of the settings window. |
+| symbolVariant | The way symbols should be displayed. |
+| settings | The settings tabs in the settings window. |
 
 ### `getSettings(_:)`
 

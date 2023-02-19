@@ -1,12 +1,12 @@
 {
   "pins" : [
     {
-      "identity" : "colibricomponents",
+      "identity" : "colibricomponents-macos",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/david-swift/ColibriComponents/",
+      "location" : "https://github.com/david-swift/ColibriComponents-macOS",
       "state" : {
-        "revision" : "451a9d0764071b624cd7e0ab093394191068ecf3",
-        "version" : "1.0.1"
+        "revision" : "1d38bac19399970b275856e4e09b5343e13b49c5",
+        "version" : "0.1.1"
       }
     },
     {
