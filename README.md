@@ -110,7 +110,7 @@ struct SuperCoolApp: App {
 
 - `1.1` - Create a new settings tab with the initializer for `SettingsTab` inside the `settings(_:)` modifier on a scene.
 - `1.2` - Create a new settings subtab with the initializer for `SettingsSubtab` inside a `SettingsTab` initializer.
-- `1.3` - Extend an existing type by using `.extend(id:)` and providing the ID of the settings tab to extend.
+- `1.3` - Extend an existing tab by using `.extend(id:)` and providing the ID of the settings tab to extend.
 - `1.4` - Create a new settings subtab by using `.noSelection` that is displayed if there is not a selected subtab.
 - `2.1` - Use the `.shortcut()` modifier on a settings tab or subtab so that this tab or subtab is opened when the user presses `⌘,`. 
 - `2.2` - Use the `.standardActions(add:remove:options:)` modifier on a settings tab for adding a „+“, „-„ and optionally „⋯“ toolbar button to the sidebar. You can also add a custom toolbar with `.actions(content:)`. 
