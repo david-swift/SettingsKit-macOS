@@ -53,7 +53,18 @@ extension Scene {
         for tab in otherTabs {
             if case let .extend(id: id) = tab.type {
                 for index in newTabs.indices where newTabs[safe: index]?.id == id {
-                    newTabs[safe: index]?.content += tab.content
+                    for item in tab.content {
+                        switch item.type {
+                        case let .extend(id: id):
+                            let content = newTabs[safe: index]?.content[id: id]
+                            newTabs[safe: index]?.content[id: id]?.content = VStack {
+                                content
+                                item
+                            }
+                        default:
+                            newTabs[safe: index]?.content.append(item)
+                        }
+                    }
                 }
             }
         }
