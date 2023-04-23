@@ -48,9 +48,7 @@ In an app project, you will find those directories and files:
 	- `(PROJECT_NAME)App.swift` contains the structure that conforms to the `App` protocol and is the entry point of the app.
 	- `ViewModel` contains classes that store information for a part of the project and files related to them.
 		- `AppModel.swift` contains a class that stores information for the whole app.
-		- `AppModelAction.swift` contains all the actions the app model can execute.
 		- `ViewModel.swift` contains a class that stores information for one window of the app.
-		- `ViewModelAction.swift` contains all the actions the view model can execute.
 	- `View` contains structures that conform to the SwiftUI `View` protocol and whose main function it is to present content in a view. All of the files here have an additional structure add the bottom of the file that helps preview the views in Xcode.
 		- `ContentView.swift` contains the main view for the main window.
 	- `Components` contains structures whose main function is to present content but do not conform to the SwiftUI `View` protocol. 
