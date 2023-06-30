@@ -63,7 +63,7 @@ public struct SettingsTab: Identifiable, View {
     /// The selected subtab's content.
     private var contentView: some View {
         Form {
-            if let first = content.first { $0.id == model.selectedSubtabs[id] } {
+            if let first = content.first(where: { $0.id == model.selectedSubtabs[id] }) {
                 first
             } else {
                 content.first { $0.type.isNoSelection }

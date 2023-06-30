@@ -26,3 +26,5 @@ extension CGFloat {
     internal static var actionsPadding: Self { 10 }
 
 }
+
+//  swiftlint:enable no_magic_numbers

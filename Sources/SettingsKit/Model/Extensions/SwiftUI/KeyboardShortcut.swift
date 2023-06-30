@@ -14,3 +14,5 @@ extension KeyboardShortcut {
     internal static var settings: Self { .init(",") }
 
 }
+
+// swiftlint:enable string_literals

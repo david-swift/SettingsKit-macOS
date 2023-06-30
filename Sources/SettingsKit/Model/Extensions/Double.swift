@@ -16,3 +16,5 @@ extension Double {
     internal static var isPressedOpacity: Self { 0.4 }
 
 }
+
+//  swiftlint:enable no_magic_numbers

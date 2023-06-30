@@ -18,3 +18,5 @@ extension String {
     static var selectedSubtabs: Self { "selected_subtabs" }
 
 }
+
+//  swiftlint:enable string_literals

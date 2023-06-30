@@ -13,8 +13,16 @@ struct ContentView: View {
 
     /// The body of the ``ContentView``.
     var body: some View {
-        Button(.init("Show Settings", comment: "ContentView (Button for showing the settings for testing purposes)") ) {
-            SettingsAction.showSettings()
+        if #available(macOS 14, *) {
+            SettingsLink()
+                .labelStyle(.titleOnly)
+        } else {
+            Button(.init(
+                "Show Settings",
+                comment: "ContentView (Button for showing the settings for testing purposes)"
+            ) ) {
+                SettingsAction.showSettings()
+            }
         }
     }
 

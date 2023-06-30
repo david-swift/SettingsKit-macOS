@@ -45,9 +45,6 @@ struct SettingsKitScene<Content>: Scene where Content: Scene {
                 .symbolVariant(symbolVariant)
             }
         }
-        .commands {
-            SettingsCommands(settings: settings, shortcutsID: standardID)
-        }
     }
 
 }
