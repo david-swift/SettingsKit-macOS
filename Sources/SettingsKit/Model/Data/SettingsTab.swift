@@ -57,6 +57,7 @@ public struct SettingsTab: Identifiable, View {
         ) { subtab in
             subtab.label
                 .tag(subtab.id)
+                .listRowSeparator(.hidden)
         }
     }
 
