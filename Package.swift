@@ -22,7 +22,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/lukepistrol/SwiftLintPlugin", from: "0.2.2"),
-        .package(url: "https://github.com/david-swift/ColibriComponents-macOS", from: "0.1.0")
+        .package(url: "https://github.com/david-swift/ColibriComponents-macOS", from: "0.1.7")
     ],
     targets: [
         .target(
