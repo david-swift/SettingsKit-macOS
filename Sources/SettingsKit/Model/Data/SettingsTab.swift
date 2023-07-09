@@ -55,9 +55,14 @@ public struct SettingsTab: Identifiable, View {
                 model.selectedSubtabs[id] = newValue
             }
         ) { subtab in
-            subtab.label
-                .tag(subtab.id)
-                .listRowSeparator(.hidden)
+            if #available(macOS 13, *) {
+                subtab.label
+                    .tag(subtab.id)
+                    .listRowSeparator(.hidden)
+            } else {
+                subtab.label
+                    .tag(subtab.id)
+            }
         }
     }
 
@@ -141,12 +146,12 @@ public struct SettingsTab: Identifiable, View {
         actions {
             ToolbarGroup {
                 ToolbarAction(
-                    .init(localized: .init("Add", comment: "SettingsTab (Label of the standard \"Add\" action)")),
+                    .init(localized: "Add", comment: "SettingsTab (Label of the standard \"Add\" action)"),
                     systemSymbol: .plus,
                     action: add
                 )
                 ToolbarAction(
-                    .init(localized: .init("Remove", comment: "SettingsTab (Label of the standard \"Remove\" action)")),
+                    .init(localized: "Remove", comment: "SettingsTab (Label of the standard \"Remove\" action)"),
                     systemSymbol: .minus
                 ) {
                     remove(content.firstIndex { $0.id == SettingsModel.shared.selectedSubtabs[id] })
@@ -157,10 +162,8 @@ public struct SettingsTab: Identifiable, View {
                 ToolbarGroup {
                     ToolbarAction(
                         .init(
-                            localized: .init(
-                                "Options",
-                                comment: "SettingsTab (Label of the standard \"Options\" action)"
-                            )
+                            localized: "Options",
+                            comment: "SettingsTab (Label of the standard \"Options\" action)"
                         ),
                         systemSymbol: .ellipsis,
                         action: options
