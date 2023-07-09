@@ -31,17 +31,13 @@ struct SettingsKitScene<Content>: Scene where Content: Scene {
                 }) {
                     ForEach(settings) { tab in
                         if case let .new(label: label) = tab.type {
-                            Color.clear
-                                .overlay {
-                                    tab
-                                }
+                            tab
                                 .tabItem {
                                     label
                                 }
                         }
                     }
                 }
-                .frame(width: .settingsWidth, height: .settingsHeight)
                 .symbolVariant(symbolVariant)
             }
         }

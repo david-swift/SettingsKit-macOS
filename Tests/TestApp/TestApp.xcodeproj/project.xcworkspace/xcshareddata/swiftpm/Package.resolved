@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/david-swift/ColibriComponents-macOS",
       "state" : {
-        "revision" : "1d38bac19399970b275856e4e09b5343e13b49c5",
-        "version" : "0.1.1"
+        "revision" : "decdef77939275f710df3e3fc02f5dfdd219c5fb",
+        "version" : "0.1.8"
       }
     },
     {

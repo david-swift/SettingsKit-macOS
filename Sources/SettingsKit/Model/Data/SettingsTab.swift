@@ -21,16 +21,22 @@ public struct SettingsTab: Identifiable, View {
     public var content: [SettingsSubtab]
     /// The sidebar actions view.
     public var sidebarActions: [ToolbarGroup]
+    /// The settings window's width.
+    public var windowWidth: CGFloat? = .settingsWidth
+    /// The settings window's height.
+    public var windowHeight: CGFloat? = .settingsHeight
 
     /// The view containing all the subtabs.
     public var body: some View {
         if content.count <= 1 && sidebarActions.isEmpty {
             content.first
+                .frame(width: windowWidth, height: windowHeight)
         } else {
             HSplitView {
                 sidebar
                 contentView
             }
+            .frame(width: .settingsWidth, height: .settingsHeight)
         }
     }
 
@@ -171,6 +177,39 @@ public struct SettingsTab: Identifiable, View {
                 }
             }
         }
+    }
+
+    /// Set the window's width and height when this tab is open.
+    /// This is being ignored if there is more than one subtab or if there are settings actions.
+    /// - Parameters:
+    ///   - width: The width. If nil, the window uses the content's width.
+    ///   - height: The height. If nil, the window uses the content's height.
+    /// - Returns: The settings tab with the new window size.
+    public func frame(width: CGFloat? = nil, height: CGFloat? = nil) -> Self {
+        var newSelf = self
+        newSelf.windowWidth = width
+        newSelf.windowHeight = height
+        return newSelf
+    }
+
+    /// Set the window's width when this tab is open without affecting the height.
+    /// This is being ignored if there is more than one subtab or if there are settings actions.
+    /// - Parameter width: The width. If nil, the window uses the content's width.
+    /// - Returns: The settings tab with the new window size.
+    public func width(_ width: CGFloat? = nil) -> Self {
+        var newSelf = self
+        newSelf.windowWidth = width
+        return newSelf
+    }
+
+    /// Set the window's height when this tab is open without affecting the width.
+    /// This is being ignored if there is more than one subtab or if there are settings actions.
+    /// - Parameter height: The height. If nil, the window uses the content's height.
+    /// - Returns: The settings tab with the new window size.
+    public func height(_ height: CGFloat? = nil) -> Self {
+        var newSelf = self
+        newSelf.windowHeight = height
+        return newSelf
     }
 
 }

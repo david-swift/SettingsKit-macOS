@@ -25,6 +25,15 @@ struct TestAppApp: App {
             for settingsTab in appModel.allSettings {
                 settingsTab
             }
+            SettingsTab(.new(label: .init("Test", systemSymbol: .arrowLeftCircle)), id: "test") {
+                SettingsSubtab(.noSelection, id: "subtab") {
+                    let width = 500.0
+                    let height = 100.0
+                    Text("Hello!")
+                        .frame(width: width, height: height)
+                }
+            }
+            .frame()
         }
     }
 
