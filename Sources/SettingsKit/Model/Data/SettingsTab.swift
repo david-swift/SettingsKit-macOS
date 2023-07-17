@@ -44,6 +44,9 @@ public struct SettingsTab: Identifiable, View {
     private var sidebar: some View {
         VStack {
             sidebarList
+                .overlay(alignment: .bottom) {
+                    Divider()
+                }
             if !sidebarActions.isEmpty {
                 sidebarActions
                     .padding(.bottom, .actionsPadding)
