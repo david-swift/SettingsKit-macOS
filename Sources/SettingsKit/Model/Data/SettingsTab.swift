@@ -52,6 +52,7 @@ public struct SettingsTab: Identifiable, View {
                     .padding(.bottom, .actionsPadding)
             }
         }
+        .background(.background)
         .frame(height: .settingsHeight)
         .frame(minWidth: .settingsSidebarWidth)
     }
