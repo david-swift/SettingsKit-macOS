@@ -26,6 +26,11 @@ public struct SettingsTab: Identifiable, View {
     /// The settings window's height.
     public var windowHeight: CGFloat? = .settingsHeight
 
+    /// The tab's content, but without the subtabs with the ``TabType.noSelection`` type.
+    private var contentWithoutNoSelectionSubtabs: [SettingsSubtab] {
+        content.filter { !$0.type.isNoSelection }
+    }
+
     /// The view containing all the subtabs.
     public var body: some View {
         if content.count <= 1 && sidebarActions.isEmpty {
@@ -60,7 +65,7 @@ public struct SettingsTab: Identifiable, View {
     /// The list in the tab's sidebar.
     private var sidebarList: some View {
         List(
-            content,
+            contentWithoutNoSelectionSubtabs,
             selection: (model.selectedSubtabs[id] ?? .init()).binding { newValue in
                 model.selectedSubtabs[id] = newValue
             }
@@ -74,12 +79,19 @@ public struct SettingsTab: Identifiable, View {
                     .tag(subtab.id)
             }
         }
+        .onChange(of: model.selectedSubtabs[id]) { newValue in
+            if !contentWithoutNoSelectionSubtabs.contains(where: { $0.id == newValue }) {
+                updateSubtabSelection(ids: contentWithoutNoSelectionSubtabs.map { $0.id })
+            }
+        }
+        .onChange(of: contentWithoutNoSelectionSubtabs.map { $0.id }) { updateSubtabSelection(ids: $0) }
+        .onAppear { updateSubtabSelection(ids: contentWithoutNoSelectionSubtabs.map { $0.id }) }
     }
 
     /// The selected subtab's content.
     private var contentView: some View {
         Form {
-            if let first = content.first(where: { $0.id == model.selectedSubtabs[id] }) {
+            if let first = contentWithoutNoSelectionSubtabs.first(where: { $0.id == model.selectedSubtabs[id] }) {
                 first
             } else {
                 content.first { $0.type.isNoSelection }
@@ -117,12 +129,22 @@ public struct SettingsTab: Identifiable, View {
         self.init(.new(label: label), id: id, content: content)
     }
 
-    /// Adds the settings shortcut to the first subtab.
-    /// - Returns: The new tab with the shortcut.
-    public func shortcut() -> Self {
-        var newTab = self
-        newTab.content[safe: 0] = newTab.content.first?.shortcut()
-        return newTab
+    /// Update the selection of the subtab.
+    /// - Parameter ids: The identifiers of the subtabs.
+    private func updateSubtabSelection(ids: [String]) {
+        if ids.contains(model.selectedSubtabs[id] ?? ""), let last = ids.last {
+            model.selectedSubtabs[id] = last
+            return
+        } else {
+            let index = contentWithoutNoSelectionSubtabs.firstIndex { $0.id == model.selectedSubtabs[id] }
+            if let before = ids[safe: (index ?? 0) - 1] {
+                model.selectedSubtabs[id] = before
+            } else if let after = ids[safe: index ?? ids.count] {
+                model.selectedSubtabs[id] = after
+            } else {
+                model.selectedSubtabs[id] = ids.last ?? ""
+            }
+        }
     }
 
     /// Adds actions to the settings sidebar.

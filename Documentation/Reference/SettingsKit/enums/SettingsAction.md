@@ -25,6 +25,10 @@ public static func showSettings(tab: String? = nil, subtab: String? = nil)
 ```
 
 Show the settings window.
+
+This function does no longer work in macOS 14 or higher.
+Please use the `SettingsLink` view for adding a button for opening the settings.
+
 - Parameters:
   - tab: The identifier of the new tab selection.
   - subtab: The identifier of the new subtab selection.

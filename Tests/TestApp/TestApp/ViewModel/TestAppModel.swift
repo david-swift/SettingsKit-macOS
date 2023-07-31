@@ -33,7 +33,6 @@ class TestAppModel: ObservableObject {
             }
             noSelection
         }
-        .shortcut()
         .standardActions {
             self.settings.append(self.newTab)
         } remove: { id in
@@ -63,7 +62,7 @@ class TestAppModel: ObservableObject {
         .init(.noSelection, id: "no-selection-settings") {
             Text(
                 .init(
-                    "Select a tab in the sidebar or add a new one with the \"+\" button.",
+                    "Add a new tab with the \"+\" button.",
                     comment: "TestAppModel (Description of a view without a selection for testing purposes)"
                 )
             )

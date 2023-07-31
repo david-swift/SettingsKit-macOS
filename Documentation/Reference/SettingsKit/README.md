@@ -2,7 +2,6 @@
 
 ## Structs
 
--   [SettingsCommands](structs/SettingsCommands.md)
 -   [SettingsImageButtonStyle](structs/SettingsImageButtonStyle.md)
 -   [SettingsKitScene](structs/SettingsKitScene.md)
 -   [SettingsSubtab](structs/SettingsSubtab.md)

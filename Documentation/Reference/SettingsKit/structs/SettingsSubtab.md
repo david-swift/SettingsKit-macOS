@@ -98,12 +98,3 @@ An initializer for a custom settings subtab.
 | label | The label of the custom settings subtab. |
 | id | The identifier. |
 | content | The content of the custom settings subtab. |
-
-### `shortcut()`
-
-```swift
-public func shortcut() -> Self
-```
-
-Adds the settings shortcut to the subtab and returns the new one.
-- Returns: The new subtab with the shortcut.

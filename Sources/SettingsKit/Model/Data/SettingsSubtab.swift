@@ -55,12 +55,4 @@ public struct SettingsSubtab: Identifiable, View {
         self.init(.new(label: label), id: id, content: content)
     }
 
-    /// Adds the settings shortcut to the subtab and returns the new one.
-    /// - Returns: The new subtab with the shortcut.
-    public func shortcut() -> Self {
-        var newSubtab = self
-        newSubtab.standard = true
-        return newSubtab
-    }
-
 }

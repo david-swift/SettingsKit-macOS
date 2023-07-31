@@ -49,6 +49,30 @@ public var sidebarActions: [ToolbarGroup]
 
 The sidebar actions view.
 
+### `windowWidth`
+
+```swift
+public var windowWidth: CGFloat? = .settingsWidth
+```
+
+The settings window's width.
+
+### `windowHeight`
+
+```swift
+public var windowHeight: CGFloat? = .settingsHeight
+```
+
+The settings window's height.
+
+### `contentWithoutNoSelectionSubtabs`
+
+```swift
+private var contentWithoutNoSelectionSubtabs: [SettingsSubtab]
+```
+
+The tab's content, but without the subtabs with the ``TabType.noSelection`` type.
+
 ### `body`
 
 ```swift
@@ -130,14 +154,20 @@ An initializer for a custom settings tav.
 | id | The identifier. |
 | content | The content of the custom settings tab. |
 
-### `shortcut()`
+### `updateSubtabSelection(ids:)`
 
 ```swift
-public func shortcut() -> Self
+private func updateSubtabSelection(ids: [String])
 ```
 
-Adds the settings shortcut to the first subtab.
-- Returns: The new tab with the shortcut.
+Update the selection of the subtab.
+- Parameter ids: The identifiers of the subtabs.
+
+#### Parameters
+
+| Name | Description |
+| ---- | ----------- |
+| ids | The identifiers of the subtabs. |
 
 ### `actions(content:)`
 
@@ -196,3 +226,57 @@ The standard set of actions with an add button, a remove button and optionally a
 | add | The action that is called when the add button is pressed. |
 | remove | The action that is called when the remove button is pressed, giving the the selected subtab’s index. |
 | options | The action that is called when the options button is pressed. If it is nil, there is no options button. |
+
+### `frame(width:height:)`
+
+```swift
+public func frame(width: CGFloat? = nil, height: CGFloat? = nil) -> Self
+```
+
+Set the window's width and height when this tab is open.
+This is being ignored if there is more than one subtab or if there are settings actions.
+- Parameters:
+  - width: The width. If nil, the window uses the content's width.
+  - height: The height. If nil, the window uses the content's height.
+- Returns: The settings tab with the new window size.
+
+#### Parameters
+
+| Name | Description |
+| ---- | ----------- |
+| width | The width. If nil, the window uses the content’s width. |
+| height | The height. If nil, the window uses the content’s height. |
+
+### `width(_:)`
+
+```swift
+public func width(_ width: CGFloat? = nil) -> Self
+```
+
+Set the window's width when this tab is open without affecting the height.
+This is being ignored if there is more than one subtab or if there are settings actions.
+- Parameter width: The width. If nil, the window uses the content's width.
+- Returns: The settings tab with the new window size.
+
+#### Parameters
+
+| Name | Description |
+| ---- | ----------- |
+| width | The width. If nil, the window uses the content’s width. |
+
+### `height(_:)`
+
+```swift
+public func height(_ height: CGFloat? = nil) -> Self
+```
+
+Set the window's height when this tab is open without affecting the width.
+This is being ignored if there is more than one subtab or if there are settings actions.
+- Parameter height: The height. If nil, the window uses the content's height.
+- Returns: The settings tab with the new window size.
+
+#### Parameters
+
+| Name | Description |
+| ---- | ----------- |
+| height | The height. If nil, the window uses the content’s height. |
