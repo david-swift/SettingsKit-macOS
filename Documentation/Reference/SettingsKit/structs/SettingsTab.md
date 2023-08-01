@@ -154,6 +154,22 @@ An initializer for a custom settings tav.
 | id | The identifier. |
 | content | The content of the custom settings tab. |
 
+### `listContent(subtab:)`
+
+```swift
+private func listContent(subtab: SettingsSubtab) -> some View
+```
+
+A row in the sidebar list.
+- Parameter subtab: The subtab of the row.
+- Returns: The row.
+
+#### Parameters
+
+| Name | Description |
+| ---- | ----------- |
+| subtab | The subtab of the row. |
+
 ### `updateSubtabSelection(ids:)`
 
 ```swift

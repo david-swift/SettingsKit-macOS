@@ -64,19 +64,26 @@ public struct SettingsTab: Identifiable, View {
 
     /// The list in the tab's sidebar.
     private var sidebarList: some View {
-        List(
-            contentWithoutNoSelectionSubtabs,
-            selection: (model.selectedSubtabs[id] ?? .init()).binding { newValue in
-                model.selectedSubtabs[id] = newValue
-            }
-        ) { subtab in
+        Group {
             if #available(macOS 13, *) {
-                subtab.label
-                    .tag(subtab.id)
-                    .listRowSeparator(.hidden)
+                let notOptional = model.selectedSubtabs[id] ?? ""
+                List(
+                    contentWithoutNoSelectionSubtabs,
+                    selection: notOptional.binding { newValue in
+                        model.selectedSubtabs[id] = newValue
+                    }
+                ) { subtab in
+                    listContent(subtab: subtab)
+                }
             } else {
-                subtab.label
-                    .tag(subtab.id)
+                List(
+                    contentWithoutNoSelectionSubtabs,
+                    selection: model.selectedSubtabs[id].binding { newValue in
+                        model.selectedSubtabs[id] = newValue
+                    }
+                ) { subtab in
+                    listContent(subtab: subtab)
+                }
             }
         }
         .onChange(of: model.selectedSubtabs[id]) { newValue in
@@ -129,21 +136,39 @@ public struct SettingsTab: Identifiable, View {
         self.init(.new(label: label), id: id, content: content)
     }
 
+    /// A row in the sidebar list.
+    /// - Parameter subtab: The subtab of the row.
+    /// - Returns: The row.
+    @ViewBuilder
+    private func listContent(subtab: SettingsSubtab) -> some View {
+        if #available(macOS 13, *) {
+            subtab.label
+                .tag(subtab.id)
+                .listRowSeparator(.hidden)
+        } else {
+            subtab.label
+                .tag(subtab.id)
+        }
+    }
+
     /// Update the selection of the subtab.
     /// - Parameter ids: The identifiers of the subtabs.
     private func updateSubtabSelection(ids: [String]) {
-        if ids.contains(model.selectedSubtabs[id] ?? ""), let last = ids.last {
-            model.selectedSubtabs[id] = last
-            return
-        } else {
+        if let first = ids.first(where: { id in
+            !content.contains { $0.id == id }
+        }) {
+            model.selectedSubtabs[id] = first
+        } else if content.count > ids.count {
             let index = contentWithoutNoSelectionSubtabs.firstIndex { $0.id == model.selectedSubtabs[id] }
-            if let before = ids[safe: (index ?? 0) - 1] {
-                model.selectedSubtabs[id] = before
-            } else if let after = ids[safe: index ?? ids.count] {
+            if let after = ids[safe: index ?? ids.count] {
                 model.selectedSubtabs[id] = after
+            } else if let before = ids[safe: (index ?? 0) - 1] {
+                model.selectedSubtabs[id] = before
             } else {
                 model.selectedSubtabs[id] = ids.last ?? ""
             }
+        } else if !ids.contains(model.selectedSubtabs[id] ?? ""), let last = ids.last {
+            model.selectedSubtabs[id] = last
         }
     }
 
