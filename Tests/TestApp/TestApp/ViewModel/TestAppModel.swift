@@ -34,7 +34,14 @@ class TestAppModel: ObservableObject {
             noSelection
         }
         .standardActions {
-            self.settings.append(self.newTab)
+            VStack {
+                Button("Icon Tab") {
+                    self.settings.append(self.newTab)
+                }
+                Button("Color Tab") {
+                    self.settings.append(self.colorTab)
+                }
+            }
         } remove: { id in
             if let id {
                 self.settings.remove(at: id)
@@ -74,6 +81,15 @@ class TestAppModel: ObservableObject {
         .init(randomLabel, id: UUID().uuidString) {
             SettingsSubtab(.noSelection, id: "no-selection-subtab") {
                 randomLabel
+            }
+        }
+    }
+
+    /// Generates a new settings tab.
+    var colorTab: SettingsTab {
+        .init(randomLabel, id: UUID().uuidString) {
+            SettingsSubtab(.noSelection, id: "no-selection-subtab") {
+                Color.accentColor
             }
         }
     }

@@ -230,6 +230,52 @@ public struct SettingsTab: Identifiable, View {
         }
     }
 
+    /// The standard set of actions with an add menu, a remove button and optionally an options button.
+    /// - Parameters:
+    ///   - add: The menu that is opened when the add button is pressed.
+    ///   - remove: The action that is called when the remove button is pressed, giving the the selected subtab's index.
+    ///   - options: The action that is called when the options button is pressed.
+    ///              If it is nil, there is no options button.
+    /// - Returns: The new tab with the actions.
+    public func standardActions<ContentView>(
+        @ViewBuilder add: @escaping () -> ContentView,
+        remove: @escaping (Int?) -> Void,
+        options: (() -> Void)? = nil
+    ) -> Self where ContentView: View {
+        actions {
+            ToolbarGroup {
+                ToolbarMenu(
+                    .init(
+                        localized: "Add",
+                        comment: "SettingsTab (Label of the standard \"Add\" action)"
+                    ),
+                    systemSymbol: .plus
+                ) {
+                    add()
+                }
+                ToolbarAction(
+                    .init(localized: "Remove", comment: "SettingsTab (Label of the standard \"Remove\" action)"),
+                    systemSymbol: .minus
+                ) {
+                    remove(content.firstIndex { $0.id == SettingsModel.shared.selectedSubtabs[id] })
+                }
+            }
+            .spacer()
+            if let options {
+                ToolbarGroup {
+                    ToolbarAction(
+                        .init(
+                            localized: "Options",
+                            comment: "SettingsTab (Label of the standard \"Options\" action)"
+                        ),
+                        systemSymbol: .ellipsis,
+                        action: options
+                    )
+                }
+            }
+        }
+    }
+
     /// Set the window's width and height when this tab is open.
     /// This is being ignored if there is more than one subtab or if there are settings actions.
     /// - Parameters:
