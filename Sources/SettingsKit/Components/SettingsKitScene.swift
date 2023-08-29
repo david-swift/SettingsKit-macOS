@@ -32,6 +32,7 @@ struct SettingsKitScene<Content>: Scene where Content: Scene {
                     ForEach(settings) { tab in
                         if case let .new(label: label) = tab.type {
                             tab
+                                .tabViewStyle(.automatic)
                                 .tabItem {
                                     label
                                 }
