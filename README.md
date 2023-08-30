@@ -63,13 +63,13 @@ struct SuperCoolApp: App {
         }
         .settings {
             // 1.1 - The "General" settings tab.
-            SettingsTab(.init("General" as String, systemSymbol: .gearshape), id: "general-tab") {
+            SettingsTab(.init("General", systemSymbol: .gearshape), id: "general-tab") {
                 // 1.2 - The "General" > "Appearance" settings subtab.
-                SettingsSubtab(.init("Appearance" as String, systemSymbol: .circleLefthalfFilled), id: "appearance") {
+                SettingsSubtab(.init("Appearance", systemSymbol: .circleLefthalfFilled), id: "appearance") {
                     AppearanceSettings()
                 }
                 // 1.2 - The "General" > "Composer" settings subtab.
-                SettingsSubtab(.init("Composer" as String, systemSymbol: .person), id: "composer") {
+                SettingsSubtab(.init("Composer", systemSymbol: .person), id: "composer") {
                     ComposerSettings()
                 }
             }
@@ -83,7 +83,7 @@ struct SuperCoolApp: App {
             }
 
             // 1.1 - The "Themes" settings tab.
-            SettingsTab(.init("Themes" as String, systemSymbol: .paintbrush)) {
+            SettingsTab(.init("Themes", systemSymbol: .paintbrush)) {
                 for theme in themes {
                     // 1.2 - A "Themes" > "THEME_NAME" settings subtab for each theme.
                     SettingsSubtab(.init(theme.title, systemSymbol: .paintbrush), id: theme.id) {
