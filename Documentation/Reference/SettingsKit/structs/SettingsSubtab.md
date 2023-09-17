@@ -33,6 +33,14 @@ public var content: any View
 
 The tab's view.
 
+### `color`
+
+```swift
+public var color: Color
+```
+
+The tab's color.
+
 ### `standard`
 
 ```swift
@@ -58,17 +66,26 @@ public var label: Label<Text, Image>?
 
 The label of a custom tab, or else nil.
 
-## Methods
-### `init(_:id:content:)`
+### `sidebarLabel`
 
 ```swift
-public init(_ type: TabType, id: String, @ViewBuilder content: () -> any View)
+@ViewBuilder public var sidebarLabel: some View
+```
+
+The label for the sidebar style.
+
+## Methods
+### `init(_:id:color:content:)`
+
+```swift
+public init(_ type: TabType, id: String, color: Color = .blue, @ViewBuilder content: () -> any View)
 ```
 
 The initializer.
 - Parameters:
   - type: The tab type of the settings subtab.
   - id: The identifier.
+  - color: The tab's color in the sidebar style.
   - content: The content of the settings subtab.
 
 #### Parameters
@@ -77,24 +94,5 @@ The initializer.
 | ---- | ----------- |
 | type | The tab type of the settings subtab. |
 | id | The identifier. |
+| color | The tab’s color in the sidebar style. |
 | content | The content of the settings subtab. |
-
-### `init(_:id:content:)`
-
-```swift
-public init(_ label: Label<Text, Image>, id: String, @ViewBuilder content: () -> any View)
-```
-
-An initializer for a custom settings subtab.
-- Parameters:
-  - label: The label of the custom settings subtab.
-  - id: The identifier.
-  - content: The content of the custom settings subtab.
-
-#### Parameters
-
-| Name | Description |
-| ---- | ----------- |
-| label | The label of the custom settings subtab. |
-| id | The identifier. |
-| content | The content of the custom settings subtab. |

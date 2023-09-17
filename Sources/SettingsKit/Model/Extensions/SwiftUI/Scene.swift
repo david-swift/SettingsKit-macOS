@@ -28,11 +28,18 @@ extension Scene {
     /// }
     /// ```
     public func settings(
+        design: SettingsWindowDesign = .default,
         symbolVariant: SymbolVariants = .none,
         @ArrayBuilder<SettingsTab> _ settings: () -> [SettingsTab]
     ) -> some Scene {
         let (settings, standardID) = getSettings(settings())
-        return SettingsKitScene(content: self, settings: settings, standardID: standardID, symbolVariant: symbolVariant)
+        return SettingsKitScene(
+            content: self,
+            settings: settings,
+            standardID: standardID,
+            symbolVariant: symbolVariant,
+            design: design
+        )
     }
 
     /// Converts the settings to an array containing only the valid settings.

@@ -50,6 +50,8 @@ _SettingsKit_ makes it easier to add a settings window to a SwiftUI app for macO
 
 ## Usage
 
+An example app project is available [here.][5]
+
 You can add settings to any SwiftUI scene, for example to a `Window` or `WindowGroup` in a standard SwiftUI app. 
 
 The following example creates a simple settings window:
@@ -110,35 +112,38 @@ struct SuperCoolApp: App {
 - `1.2` - Create a new settings subtab with the initializer for `SettingsSubtab` inside a `SettingsTab` initializer.
 - `1.3` - Extend an existing tab by using `.extend(id:)` and providing the ID of the settings tab to extend.
 - `1.4` - Create a new settings subtab by using `.noSelection` that is displayed if there is not a selected subtab.
-- `2.1` - Use the `.standardActions(add:remove:options:)` modifier on a settings tab for adding a „+“, „-„ and optionally „⋯“ toolbar button to the sidebar. You can also add a custom toolbar with `.actions(content:)`. 
+- `2.1` - Use the `.standardActions(add:remove:options:)` modifier on a settings tab for adding a „+“, „-“ and optionally „⋯“ toolbar button to the sidebar. You can also add a custom toolbar with `.actions(content:)`. 
+
+Replace the line `.settings {` with `.settings(design: .sidebar) {` in order to get a settings window with the split view style. It is best suited for apps with many settings tabs.  
 
 ## Thanks
 
 ### Dependencies
-- [SFSafeSymbols][5] licensed under the [MIT license][6]
-- [SwiftLintPlugin][7] licensed under the [MIT license][8]
-- [ColibriComponents][9] licensed under the [MIT license][10]
+- [SFSafeSymbols][6] licensed under the [MIT license][7]
+- [SwiftLintPlugin][8] licensed under the [MIT license][9]
+- [ColibriComponents][10] licensed under the [MIT license][11]
 
 ### Other Thanks
-- The [contributors][11]
-- [SourceDocs][12] used for generating the [docs][13]
-- [SwiftLint][14] for checking whether code style conventions are violated
-- The programming language [Swift][15]
+- The [contributors][12]
+- [SourceDocs][13] used for generating the [docs][14]
+- [SwiftLint][15] for checking whether code style conventions are violated
+- The programming language [Swift][16]
 
 [1]:	#Elements
 [2]:	#Installation
 [3]:	#Usage
 [4]:	#Thanks
-[5]:	https://github.com/SFSafeSymbols/SFSafeSymbols
-[6]:	https://github.com/SFSafeSymbols/SFSafeSymbols/blob/stable/LICENSE
-[7]:	https://github.com/lukepistrol/SwiftLintPlugin
-[8]:	https://github.com/lukepistrol/SwiftLintPlugin/blob/main/LICENSE
-[9]:	https://github.com/david-swift/ColibriComponents-macOS
-[10]:	https://github.com/david-swift/ColibriComponents-macOS/blob/main/LICENSE.md
-[11]:	Contributors.md
-[12]:	https://github.com/SourceDocs/SourceDocs
-[13]:	Documentation/Reference/SettingsKit-macOS/README.md
-[14]:	https://github.com/realm/SwiftLint
-[15]:	https://github.com/apple/swift
+[5]:	/Tests/Examples/
+[6]:	https://github.com/SFSafeSymbols/SFSafeSymbols
+[7]:	https://github.com/SFSafeSymbols/SFSafeSymbols/blob/stable/LICENSE
+[8]:	https://github.com/lukepistrol/SwiftLintPlugin
+[9]:	https://github.com/lukepistrol/SwiftLintPlugin/blob/main/LICENSE
+[10]:	https://github.com/david-swift/ColibriComponents-macOS
+[11]:	https://github.com/david-swift/ColibriComponents-macOS/blob/main/LICENSE.md
+[12]:	Contributors.md
+[13]:	https://github.com/SourceDocs/SourceDocs
+[14]:	Documentation/Reference/SettingsKit-macOS/README.md
+[15]:	https://github.com/realm/SwiftLint
+[16]:	https://github.com/apple/swift
 
 [image-1]:	Icons/GitHubBanner.png

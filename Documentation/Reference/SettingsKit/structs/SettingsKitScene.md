@@ -49,6 +49,22 @@ var symbolVariant: SymbolVariants
 
 Modify the way symbols are displayed.
 
+### `design`
+
+```swift
+var design: SettingsWindowDesign
+```
+
+The design of the settings window.
+
+### `search`
+
+```swift
+@State private var search = ""
+```
+
+The filter in the sidebar design.
+
 ### `body`
 
 ```swift
@@ -56,3 +72,19 @@ var body: some Scene
 ```
 
 The scene.
+
+### `navigationView`
+
+```swift
+private var navigationView: some View
+```
+
+The view with the sidebar design.
+
+### `tabView`
+
+```swift
+private var tabView: some View
+```
+
+The view with the tab design.

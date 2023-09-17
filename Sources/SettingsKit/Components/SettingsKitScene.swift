@@ -20,27 +20,93 @@ struct SettingsKitScene<Content>: Scene where Content: Scene {
     var standardID: String
     /// Modify the way symbols are displayed.
     var symbolVariant: SymbolVariants
+    /// The design of the settings window.
+    var design: SettingsWindowDesign
+    /// The filter in the sidebar design.
+    @State private var search = ""
 
     /// The scene.
     var body: some Scene {
         Group {
             content
             Settings {
-                TabView(selection: SettingsModel.shared.selectedTab.binding { newValue in
-                    model.selectedTab = newValue
-                }) {
-                    ForEach(settings) { tab in
-                        if case let .new(label: label) = tab.type {
-                            tab
-                                .tabViewStyle(.automatic)
-                                .tabItem {
-                                    label
-                                }
-                        }
+                Group {
+                    if #available(macOS 13, *), design == .sidebar {
+                        navigationView
+                    } else {
+                        tabView
                     }
                 }
                 .symbolVariant(symbolVariant)
             }
+        }
+    }
+
+    /// The view with the sidebar design.
+    @available(macOS 13, *)
+    private var navigationView: some View {
+        NavigationView {
+            List(selection: SettingsModel.shared.selectedTab.binding { newValue in
+                model.selectedTab = newValue
+            }) {
+                Section {
+                    ForEach(settings.filter { tab in
+                        if case let .new(title: title, icon: _) = tab.type {
+                            return title.lowercased().contains(search.lowercased()) || search.isEmpty
+                        } else {
+                            return false
+                        }
+                    }) { tab in
+                        tab.sidebarLabel
+                    }
+                }
+            }
+            let tab = settings.first { $0.id == SettingsModel.shared.selectedTab }
+            tab?.sidebarBody
+                .navigationTitle({ () -> String in
+                    if case let .new(title: title, icon: _) = tab?.type {
+                        return title
+                    } else {
+                        return ""
+                    }
+                }())
+                .formStyle(.grouped)
+        }
+        .searchable(text: $search, placement: .sidebar)
+        .toolbar {
+            Text("")
+        }
+        .task {
+            let window = NSApplication.shared.keyWindow
+            window?.toolbarStyle = .unified
+            window?.toolbar?.displayMode = .iconOnly
+        }
+    }
+
+    /// The view with the tab design.
+    private var tabView: some View {
+        TabView(selection: SettingsModel.shared.selectedTab.binding { newValue in
+            model.selectedTab = newValue
+        }) {
+            ForEach(settings) { tab in
+                if case .new = tab.type {
+                    tab
+                        .tabViewStyle(.automatic)
+                        .tabItem {
+                            tab.label
+                        }
+                }
+            }
+        }
+        .task {
+            let window = NSApplication.shared.keyWindow
+            window?.toolbarStyle = .preference
+            window?.toolbar?.displayMode = .iconAndLabel
+        }
+        .onAppear {
+            let selection = SettingsModel.shared.selectedTab
+            model.selectedTab = ""
+            model.selectedTab = selection
         }
     }
 

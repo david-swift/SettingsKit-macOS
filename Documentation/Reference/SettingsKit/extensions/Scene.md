@@ -6,10 +6,11 @@ extension Scene
 ```
 
 ## Methods
-### `settings(symbolVariant:_:)`
+### `settings(design:symbolVariant:_:)`
 
 ```swift
 public func settings(
+    design: SettingsWindowDesign = .default,
     symbolVariant: SymbolVariants = .none,
     @ArrayBuilder<SettingsTab> _ settings: () -> [SettingsTab]
 ) -> some Scene

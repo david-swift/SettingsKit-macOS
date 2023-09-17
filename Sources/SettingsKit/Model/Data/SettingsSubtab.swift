@@ -16,6 +16,8 @@ public struct SettingsSubtab: Identifiable, View {
     public var type: TabType
     /// The tab's view.
     public var content: any View
+    /// The tab's color.
+    public var color: Color
     /// Whether the subtab is the standard tab.
     var standard = false
 
@@ -29,30 +31,35 @@ public struct SettingsSubtab: Identifiable, View {
 
     /// The label of a custom tab, or else nil.
     public var label: Label<Text, Image>? {
-        guard case let .new(label: label) = type else {
+        guard case let .new(title: title, icon: icon) = type else {
             return nil
         }
-        return label
+        return .init(title, systemSymbol: icon)
+    }
+
+    /// The label for the sidebar style.
+    @ViewBuilder public var sidebarLabel: some View {
+        if case let .new(title: title, icon: icon) = type {
+            HStack {
+                Image(systemSymbol: icon)
+                    .sidebarSettingsIcon(color: color)
+                    .accessibilityHidden(true)
+                Text(title)
+            }
+        }
     }
 
     /// The initializer.
     /// - Parameters:
     ///   - type: The tab type of the settings subtab.
     ///   - id: The identifier.
+    ///   - color: The tab's color in the sidebar style.
     ///   - content: The content of the settings subtab.
-    public init(_ type: TabType, id: String, @ViewBuilder content: () -> any View) {
+    public init(_ type: TabType, id: String, color: Color = .blue, @ViewBuilder content: () -> any View) {
         self.id = id
         self.type = type
+        self.color = color
         self.content = content()
-    }
-
-    /// An initializer for a custom settings subtab.
-    /// - Parameters:
-    ///   - label: The label of the custom settings subtab.
-    ///   - id: The identifier.
-    ///   - content: The content of the custom settings subtab.
-    public init(_ label: Label<Text, Image>, id: String, @ViewBuilder content: () -> any View) {
-        self.init(.new(label: label), id: id, content: content)
     }
 
 }

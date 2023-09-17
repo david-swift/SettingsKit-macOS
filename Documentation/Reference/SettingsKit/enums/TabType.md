@@ -9,10 +9,10 @@ public enum TabType
 The type of a settings tab or subtab.
 
 ## Cases
-### `new(label:)`
+### `new(title:icon:)`
 
 ```swift
-case new(label: Label<Text, Image>)
+case new(title: String, icon: SFSymbol)
 ```
 
 A new settings tab or subtab with a label.

@@ -17,6 +17,8 @@ public struct SettingsTab: Identifiable, View {
     public let id: String
     /// The tab's type.
     public var type: TabType
+    /// The tab's color in the sidebar design.
+    public var color: Color
     /// The tab's content.
     public var content: [SettingsSubtab]
     /// The sidebar actions view.
@@ -49,12 +51,9 @@ public struct SettingsTab: Identifiable, View {
     private var sidebar: some View {
         VStack {
             sidebarList
-                .overlay(alignment: .bottom) {
-                    Divider()
-                }
+                .overlay(alignment: .bottom) { Divider() }
             if !sidebarActions.isEmpty {
-                sidebarActions
-                    .padding(.bottom, .actionsPadding)
+                sidebarActions.padding(.bottom, .actionsPadding)
             }
         }
         .background(.background)
@@ -95,6 +94,29 @@ public struct SettingsTab: Identifiable, View {
         .onAppear { updateSubtabSelection(ids: contentWithoutNoSelectionSubtabs.map { $0.id }) }
     }
 
+    /// The body if the sidebar layout is active.
+    @available(macOS 13, *)
+    @ViewBuilder var sidebarBody: some View {
+        if content.count <= 1 { body } else {
+            NavigationStack {
+                Form {
+                    ForEach(content) { content in
+                        NavigationLink(value: content.id) {
+                            content.sidebarLabel
+                        }
+                    }
+                    if !sidebarActions.isEmpty {
+                        let bottomPadding = 5.0
+                        sidebarActions
+                            .padding(.bottom, bottomPadding)
+                    }
+                }
+                .formStyle(.grouped)
+                .navigationDestination(for: String.self) { content[id: $0]?.body }
+            }
+        }
+    }
+
     /// The selected subtab's content.
     private var contentView: some View {
         Form {
@@ -107,33 +129,43 @@ public struct SettingsTab: Identifiable, View {
         .frame(minWidth: .settingsContentWidth, maxWidth: .infinity)
     }
 
+    /// The label of a custom tab, or else nil.
+    public var label: Label<Text, Image>? {
+        guard case let .new(title: title, icon: icon) = type else {
+            return nil
+        }
+        return .init(title, systemSymbol: icon)
+    }
+
+    /// The label in the sidebar.
+    @ViewBuilder public var sidebarLabel: some View {
+        if case let .new(title: title, icon: icon) = type {
+            HStack {
+                Image(systemSymbol: icon)
+                    .sidebarSettingsIcon(color: color)
+                    .accessibilityHidden(true)
+                Text(title)
+            }
+        }
+    }
+
     /// The initializer.
     /// - Parameters:
     ///   - type: The tab type of the settings tab.
     ///   - id: The identifier.
+    ///   - color: The tab's color in the settings window with the sidebar design.
     ///   - content: The content of the settings tab.
     public init(
         _ type: TabType,
         id: String,
+        color: Color = .blue,
         @ArrayBuilder<SettingsSubtab> content: () -> [SettingsSubtab]
     ) {
         self.id = id
         self.type = type
         self.content = content()
+        self.color = color
         sidebarActions = []
-    }
-
-    /// An initializer for a custom settings tav.
-    /// - Parameters:
-    ///   - label: The label of the custom settings tab.
-    ///   - id: The identifier.
-    ///   - content: The content of the custom settings tab.
-    public init(
-        _ label: Label<Text, Image>,
-        id: String,
-        @ArrayBuilder<SettingsSubtab> content: () -> [SettingsSubtab]
-    ) {
-        self.init(.new(label: label), id: id, content: content)
     }
 
     /// A row in the sidebar list.

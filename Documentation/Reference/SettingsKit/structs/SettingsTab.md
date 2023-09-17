@@ -33,6 +33,14 @@ public var type: TabType
 
 The tab's type.
 
+### `color`
+
+```swift
+public var color: Color
+```
+
+The tab's color in the sidebar design.
+
 ### `content`
 
 ```swift
@@ -97,6 +105,14 @@ private var sidebarList: some View
 
 The list in the tab's sidebar.
 
+### `sidebarBody`
+
+```swift
+@ViewBuilder var sidebarBody: some View
+```
+
+The body if the sidebar layout is active.
+
 ### `contentView`
 
 ```swift
@@ -105,13 +121,30 @@ private var contentView: some View
 
 The selected subtab's content.
 
+### `label`
+
+```swift
+public var label: Label<Text, Image>?
+```
+
+The label of a custom tab, or else nil.
+
+### `sidebarLabel`
+
+```swift
+@ViewBuilder public var sidebarLabel: some View
+```
+
+The label in the sidebar.
+
 ## Methods
-### `init(_:id:content:)`
+### `init(_:id:color:content:)`
 
 ```swift
 public init(
     _ type: TabType,
     id: String,
+    color: Color = .blue,
     @ArrayBuilder<SettingsSubtab> content: () -> [SettingsSubtab]
 )
 ```
@@ -120,6 +153,7 @@ The initializer.
 - Parameters:
   - type: The tab type of the settings tab.
   - id: The identifier.
+  - color: The tab's color in the settings window with the sidebar design.
   - content: The content of the settings tab.
 
 #### Parameters
@@ -128,31 +162,8 @@ The initializer.
 | ---- | ----------- |
 | type | The tab type of the settings tab. |
 | id | The identifier. |
+| color | The tab’s color in the settings window with the sidebar design. |
 | content | The content of the settings tab. |
-
-### `init(_:id:content:)`
-
-```swift
-public init(
-    _ label: Label<Text, Image>,
-    id: String,
-    @ArrayBuilder<SettingsSubtab> content: () -> [SettingsSubtab]
-)
-```
-
-An initializer for a custom settings tav.
-- Parameters:
-  - label: The label of the custom settings tab.
-  - id: The identifier.
-  - content: The content of the custom settings tab.
-
-#### Parameters
-
-| Name | Description |
-| ---- | ----------- |
-| label | The label of the custom settings tab. |
-| id | The identifier. |
-| content | The content of the custom settings tab. |
 
 ### `listContent(subtab:)`
 
