@@ -101,8 +101,8 @@ public struct SettingsTab: Identifiable, View {
             NavigationStack {
                 Form {
                     ForEach(content) { content in
-                        NavigationLink(value: content.id) {
-                            content.sidebarLabel
+                        if !content.type.isNoSelection {
+                            NavigationLink(value: content.id) { content.sidebarLabel }
                         }
                     }
                     if !sidebarActions.isEmpty {
