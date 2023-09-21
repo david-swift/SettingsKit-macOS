@@ -44,7 +44,7 @@ struct ExamplesApp: App {
             }
             .standardActions {
                 accountsCount += 1
-            } remove: { _ in
+            } remove: { _, _ in
                 if accountsCount > 0 {
                     accountsCount -= 1
                 }

@@ -223,13 +223,14 @@ public struct SettingsTab: Identifiable, View {
     /// The standard set of actions with an add button, a remove button and optionally an options button.
     /// - Parameters:
     ///   - add: The action that is called when the add button is pressed.
-    ///   - remove: The action that is called when the remove button is pressed, giving the the selected subtab's index.
+    ///   - remove: The action that is called when the remove button is pressed, 
+    ///             giving the the selected subtab's id and index.
     ///   - options: The action that is called when the options button is pressed.
     ///              If it is nil, there is no options button.
     /// - Returns: The new tab with the actions.
     public func standardActions(
         add: @escaping () -> Void,
-        remove: @escaping (Int?) -> Void,
+        remove: @escaping (String?, Int?) -> Void,
         options: (() -> Void)? = nil
     ) -> Self {
         actions {
@@ -243,7 +244,8 @@ public struct SettingsTab: Identifiable, View {
                     .init(localized: "Remove", comment: "SettingsTab (Label of the standard \"Remove\" action)"),
                     systemSymbol: .minus
                 ) {
-                    remove(content.firstIndex { $0.id == SettingsModel.shared.selectedSubtabs[id] })
+                    let index = content.firstIndex { $0.id == SettingsModel.shared.selectedSubtabs[id] }
+                    remove(content[safe: index]?.id, index)
                 }
             }
             .spacer()
@@ -265,13 +267,14 @@ public struct SettingsTab: Identifiable, View {
     /// The standard set of actions with an add menu, a remove button and optionally an options button.
     /// - Parameters:
     ///   - add: The menu that is opened when the add button is pressed.
-    ///   - remove: The action that is called when the remove button is pressed, giving the the selected subtab's index.
+    ///   - remove: The action that is called when the remove button is pressed,
+    ///             giving the the selected subtab's id and index.
     ///   - options: The action that is called when the options button is pressed.
     ///              If it is nil, there is no options button.
     /// - Returns: The new tab with the actions.
     public func standardActions<ContentView>(
         @ViewBuilder add: @escaping () -> ContentView,
-        remove: @escaping (Int?) -> Void,
+        remove: @escaping (String?, Int?) -> Void,
         options: (() -> Void)? = nil
     ) -> Self where ContentView: View {
         actions {
@@ -282,14 +285,13 @@ public struct SettingsTab: Identifiable, View {
                         comment: "SettingsTab (Label of the standard \"Add\" action)"
                     ),
                     systemSymbol: .plus
-                ) {
-                    add()
-                }
+                ) { add() }
                 ToolbarAction(
                     .init(localized: "Remove", comment: "SettingsTab (Label of the standard \"Remove\" action)"),
                     systemSymbol: .minus
                 ) {
-                    remove(content.firstIndex { $0.id == SettingsModel.shared.selectedSubtabs[id] })
+                    let index = content.firstIndex { $0.id == SettingsModel.shared.selectedSubtabs[id] }
+                    remove(content[safe: index]?.id, index)
                 }
             }
             .spacer()

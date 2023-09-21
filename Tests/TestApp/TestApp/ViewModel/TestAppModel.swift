@@ -42,9 +42,9 @@ class TestAppModel: ObservableObject {
                     self.settings.append(self.colorTab)
                 }
             }
-        } remove: { id in
-            if let id {
-                self.settings.remove(at: id)
+        } remove: { _, index in
+            if let index {
+                self.settings.remove(at: index)
             }
         }
 
