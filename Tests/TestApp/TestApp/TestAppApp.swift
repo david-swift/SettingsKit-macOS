@@ -15,21 +15,24 @@ struct TestAppApp: App {
 
     /// The app model for testing the ``SettingsKit``.
     @StateObject private var appModel = TestAppModel.shared
+    /// Whether the sidebar design should be used for the settings window.
+    @AppStorage("sidebar-design")
+    var sidebarDesign = false
 
     /// The main view of the test app.
     var body: some Scene {
         Window("Window", id: "Window") {
             ContentView()
         }
-        .settings {
+        .settings(design: sidebarDesign ? .sidebar : .default) {
             for settingsTab in appModel.allSettings {
                 settingsTab
             }
-            SettingsTab(.new(label: .init("Test", systemSymbol: .arrowLeftCircle)), id: "test") {
+            SettingsTab(.new(title: "Test", icon: .arrowLeftCircle), id: "test") {
                 SettingsSubtab(.noSelection, id: "subtab") {
                     let width = 500.0
                     let height = 100.0
-                    Text("Hello!")
+                    Toggle("Sidebar Design", isOn: $sidebarDesign)
                         .frame(width: width, height: height)
                 }
             }

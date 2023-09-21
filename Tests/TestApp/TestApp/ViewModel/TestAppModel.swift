@@ -22,9 +22,9 @@ class TestAppModel: ObservableObject {
     /// All the settings: the "Settings" tab + the ``settings``.
     @ArrayBuilder<SettingsTab> var allSettings: [SettingsTab] {
         SettingsTab(
-            .init(
-                .init("Settings", comment: "TestAppModel (Name of the settings for testing purposes)"),
-                systemSymbol: .gearshape
+            .new(
+                title: "Settings",
+                icon: .gearshape
             ),
             id: "settings-tab"
         ) {
@@ -56,9 +56,9 @@ class TestAppModel: ObservableObject {
     /// The subtabs in the "Setttings" tab that represent the other tabs.
     @ArrayBuilder<SettingsSubtab> private var tabsGeneralSubtabs: [SettingsSubtab] {
         for settingsTab in settings {
-            if case let .new(label: label) = settingsTab.type {
-                SettingsSubtab(label, id: settingsTab.id) {
-                    label
+            if case let .new(title: title, icon: icon) = settingsTab.type {
+                SettingsSubtab(.new(title: title, icon: icon), id: settingsTab.id) {
+                    Label(title, systemSymbol: icon)
                 }
             }
         }
@@ -78,16 +78,16 @@ class TestAppModel: ObservableObject {
 
     /// Generates a new settings tab.
     var newTab: SettingsTab {
-        .init(randomLabel, id: UUID().uuidString) {
+        .init(.new(title: randomLabel.0, icon: randomLabel.1), id: UUID().uuidString) {
             SettingsSubtab(.noSelection, id: "no-selection-subtab") {
-                randomLabel
+                Label(randomLabel.0, systemSymbol: randomLabel.1)
             }
         }
     }
 
     /// Generates a new settings tab.
     var colorTab: SettingsTab {
-        .init(randomLabel, id: UUID().uuidString) {
+        .init(.new(title: randomLabel.0, icon: randomLabel.1), id: UUID().uuidString) {
             SettingsSubtab(.noSelection, id: "no-selection-subtab") {
                 Color.accentColor
             }
@@ -95,9 +95,9 @@ class TestAppModel: ObservableObject {
     }
 
     /// Generates a random label.
-    private var randomLabel: Label<Text, Image> {
+    private var randomLabel: (String, SFSymbol) {
         var dot = false
-        return .init(
+        return (
             randomSymbol.rawValue.compactMap { char -> String? in
                 if char == "." {
                     dot = true
@@ -107,7 +107,7 @@ class TestAppModel: ObservableObject {
                 return nil
             }
             .joined(),
-            systemSymbol: randomSymbol
+            randomSymbol
         )
     }
 
