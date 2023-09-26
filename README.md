@@ -4,6 +4,10 @@
 </p>
 
 <p align="center">
+  <a href="https://david-swift.gitbook.io/settingskit/">
+  User Manual
+  </a>
+  ·
   <a href="https://github.com/david-swift/SettingsKit-macOS">
   GitHub
   </a>
@@ -52,98 +56,46 @@ _SettingsKit_ makes it easier to add a settings window to a SwiftUI app for macO
 
 An example app project is available [here.][5]
 
-You can add settings to any SwiftUI scene, for example to a `Window` or `WindowGroup` in a standard SwiftUI app. 
+* [Getting Started][6]
 
-The following example creates a simple settings window:
-```swift
-@main
-struct SuperCoolApp: App {
+### Usage
 
-    var body: some Scene {
-        WindowGroup {
-            ContentView()
-        }
-        .settings {
-            // 1.1 - The "General" settings tab.
-            SettingsTab(.init("General", systemSymbol: .gearshape), id: "general-tab") {
-                // 1.2 - The "General" > "Appearance" settings subtab.
-                SettingsSubtab(.init("Appearance", systemSymbol: .circleLefthalfFilled), id: "appearance") {
-                    AppearanceSettings()
-                }
-                // 1.2 - The "General" > "Composer" settings subtab.
-                SettingsSubtab(.init("Composer", systemSymbol: .person), id: "composer") {
-                    ComposerSettings()
-                }
-            }
-
-            // 1.3 - An extension for the "General" settings tab.
-            SettingsTab(.extend(id: "general-tab"), id: "general-tab-extension") {
-                // 1.4 - The "General" settings subtab for no selection.
-                SettingsSubtab(.noSelection, id: "no-selection") {
-                    NoSelectionInformation()
-                }
-            }
-
-            // 1.1 - The "Themes" settings tab.
-            SettingsTab(.init("Themes", systemSymbol: .paintbrush)) {
-                for theme in themes {
-                    // 1.2 - A "Themes" > "THEME_NAME" settings subtab for each theme.
-                    SettingsSubtab(.init(theme.title, systemSymbol: .paintbrush), id: theme.id) {
-
-                    }
-                }
-            }
-            // 2.1 - The "+" and "-" buttons in the sidebar's toolbar.
-            .standardActions {
-                themes.append(.init())
-            } remove: { index in
-                if let index {
-                    themes.remove(at: index)
-                }
-            }
-
-        }
-    }
-
-}
-```
-
-- `1.1` - Create a new settings tab with the initializer for `SettingsTab` inside the `settings(_:)` modifier on a scene.
-- `1.2` - Create a new settings subtab with the initializer for `SettingsSubtab` inside a `SettingsTab` initializer.
-- `1.3` - Extend an existing tab by using `.extend(id:)` and providing the ID of the settings tab to extend.
-- `1.4` - Create a new settings subtab by using `.noSelection` that is displayed if there is not a selected subtab.
-- `2.1` - Use the `.standardActions(add:remove:options:)` modifier on a settings tab for adding a „+“, „-“ and optionally „⋯“ toolbar button to the sidebar. You can also add a custom toolbar with `.actions(content:)`. 
-
-Replace the line `.settings {` with `.settings(design: .sidebar) {` in order to get a settings window with the split view style. It is best suited for apps with many settings tabs.  
+* [Add a Settings Window][7]
+* [Tabs & Subtabs][8]
+* [Actions][9]  
 
 ## Thanks
 
 ### Dependencies
-- [SFSafeSymbols][6] licensed under the [MIT license][7]
-- [SwiftLintPlugin][8] licensed under the [MIT license][9]
-- [ColibriComponents][10] licensed under the [MIT license][11]
+- [SFSafeSymbols][10] licensed under the [MIT license][11]
+- [SwiftLintPlugin][12] licensed under the [MIT license][13]
+- [ColibriComponents][14] licensed under the [MIT license][15]
 
 ### Other Thanks
-- The [contributors][12]
-- [SourceDocs][13] used for generating the [docs][14]
-- [SwiftLint][15] for checking whether code style conventions are violated
-- The programming language [Swift][16]
+- The [contributors][16]
+- [SourceDocs][17] used for generating the [docs][18]
+- [SwiftLint][19] for checking whether code style conventions are violated
+- The programming language [Swift][20]
 
-[1]:	#Elements
-[2]:	#Installation
-[3]:	#Usage
-[4]:	#Thanks
+[1]:	#elements
+[2]:	#installation
+[3]:	#usage
+[4]:	#thanks
 [5]:	/Tests/Examples/
-[6]:	https://github.com/SFSafeSymbols/SFSafeSymbols
-[7]:	https://github.com/SFSafeSymbols/SFSafeSymbols/blob/stable/LICENSE
-[8]:	https://github.com/lukepistrol/SwiftLintPlugin
-[9]:	https://github.com/lukepistrol/SwiftLintPlugin/blob/main/LICENSE
-[10]:	https://github.com/david-swift/ColibriComponents-macOS
-[11]:	https://github.com/david-swift/ColibriComponents-macOS/blob/main/LICENSE.md
-[12]:	Contributors.md
-[13]:	https://github.com/SourceDocs/SourceDocs
-[14]:	Documentation/Reference/SettingsKit-macOS/README.md
-[15]:	https://github.com/realm/SwiftLint
-[16]:	https://github.com/apple/swift
+[6]:	user-manual/GettingStarted.md
+[7]:	user-manual/Usage/AddSettingsWindow.md
+[8]:	user-manual/Usage/TabsAndSubtabs.md
+[9]:	user-manual/Usage/Actions.md
+[10]:	https://github.com/SFSafeSymbols/SFSafeSymbols
+[11]:	https://github.com/SFSafeSymbols/SFSafeSymbols/blob/stable/LICENSE
+[12]:	https://github.com/lukepistrol/SwiftLintPlugin
+[13]:	https://github.com/lukepistrol/SwiftLintPlugin/blob/main/LICENSE
+[14]:	https://github.com/david-swift/ColibriComponents-macOS
+[15]:	https://github.com/david-swift/ColibriComponents-macOS/blob/main/LICENSE.md
+[16]:	Contributors.md
+[17]:	https://github.com/SourceDocs/SourceDocs
+[18]:	Documentation/Reference/SettingsKit-macOS/README.md
+[19]:	https://github.com/realm/SwiftLint
+[20]:	https://github.com/apple/swift
 
 [image-1]:	Icons/GitHubBanner.png
