@@ -13,8 +13,7 @@ import SwiftUI
 struct ExamplesApp: App {
 
     /// A test storage value.
-    @AppStorage("accounts-count")
-    var accountsCount = 0
+    @State private var accounts = [0]
     /// A test storage value.
     @AppStorage("show-first-name")
     var firstNameBeforeLastName = true
@@ -29,29 +28,64 @@ struct ExamplesApp: App {
         }
         .settings(design: defaultSettingsDesign ? .default : .sidebar) {
             SettingsTab(.new(title: "General", icon: .gearshape), id: "general", color: .gray) {
-                SettingsSubtab(.noSelection, id: "general") {
-                    GeneralSettings()
-                        .padding()
-                }
+                SettingsSubtab(.noSelection, id: "general") { GeneralSettings() }
             }
             .frame()
-            SettingsTab(.new(title: "Accounts", icon: .at), id: "accounts") {
-                for account in 0..<accountsCount {
-                    SettingsSubtab(.new(title: "Account \(account + 1)", icon: .personFill), id: "account-\(account)") {
-                        AccountView(account: account)
+            if defaultSettingsDesign {
+                accountsTab
+                    .standardActions {
+                        self.accounts.append((self.accounts.last ?? -1) + 1)
+                    } remove: { _, index in
+                        if let index {
+                            self.accounts.remove(at: index)
+                        }
                     }
-                }
-            }
-            .standardActions {
-                accountsCount += 1
-            } remove: { _, _ in
-                if accountsCount > 0 {
-                    accountsCount -= 1
-                }
+            } else {
+                accountsTab
             }
             SettingsTab(.new(title: "Advanced", icon: .gearshape2), id: "advanced") {
                 SettingsSubtab(.noSelection, id: "advanced") {
-                    Text("Advanced Settings")
+                    VStack {
+                        Spacer()
+                        HStack {
+                            Spacer()
+                            Text("Advanced Settings")
+                            Spacer()
+                        }
+                        Spacer()
+                    }
+                }
+            }
+            .frame()
+        }
+    }
+
+    /// The sample "Accounts" tab.
+    private var accountsTab: SettingsTab {
+        .init(.new(title: "Accounts", icon: .at), id: "accounts") {
+            for account in self.accounts {
+                SettingsSubtab(.new(title: "Account \(account + 1)", icon: .personFill), id: "account-\(account)") {
+                    if defaultSettingsDesign {
+                        AccountView(account: account)
+                    } else {
+                        AccountView(account: account)
+                            .toolbar {
+                                Button("Delete Account") {
+                                    self.accounts = self.accounts.filter { $0 != account }
+                                }
+                            }
+                    }
+                }
+            }
+        }
+        .top {
+            Section {
+                HStack {
+                    Text("Accounts")
+                    Spacer()
+                    Button("Add Account") {
+                        self.accounts.append((self.accounts.last ?? -1) + 1)
+                    }
                 }
             }
         }

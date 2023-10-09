@@ -57,6 +57,7 @@ struct GeneralSettings: View {
         }
         .frame(width: width)
         .fixedSize()
+        .padding()
     }
 }
 

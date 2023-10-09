@@ -52,13 +52,17 @@ struct SettingsKitScene<Content>: Scene where Content: Scene {
                 Section {
                     ForEach(settings.filter { tab in
                         if case let .new(title: title, icon: _) = tab.type {
-                            return title.lowercased().contains(search.lowercased()) || search.isEmpty
-                        } else {
-                            return false
+                            let search = search.lowercased()
+                            let contentContains = tab.content.contains { subtab in
+                                if case let .new(title: title, icon: _) = subtab.type {
+                                    return title.lowercased().contains(search)
+                                }
+                                return false
+                            }
+                            return title.lowercased().contains(search) || search.isEmpty || contentContains
                         }
-                    }) { tab in
-                        tab.sidebarLabel
-                    }
+                        return false
+                    }) { $0.sidebarLabel }
                 }
             }
             let tab = settings.first { $0.id == SettingsModel.shared.selectedTab }
@@ -80,6 +84,11 @@ struct SettingsKitScene<Content>: Scene where Content: Scene {
             let window = NSApplication.shared.keyWindow
             window?.toolbarStyle = .unified
             window?.toolbar?.displayMode = .iconOnly
+        }
+        .onAppear {
+            if !settings.contains(where: { $0.id == model.selectedTab }), let id = settings.first?.id {
+                model.selectedTab = id
+            }
         }
     }
 

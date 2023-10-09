@@ -12,7 +12,7 @@ import SwiftUI
 public struct SettingsTab: Identifiable, View {
 
     /// The instance of the settings model.
-    @StateObject private var model = SettingsModel.shared
+    @StateObject var model = SettingsModel.shared
     /// The tab's identifier.
     public let id: String
     /// The tab's type.
@@ -21,6 +21,10 @@ public struct SettingsTab: Identifiable, View {
     public var color: Color
     /// The tab's content.
     public var content: [SettingsSubtab]
+    /// The view above the list of the subtabs in the sidebar style settings window.
+    public var top: AnyView?
+    /// The view below the list of the subtabs in the sidebar style settings window.
+    public var bottom: AnyView?
     /// The sidebar actions view.
     public var sidebarActions: [ToolbarGroup]
     /// The settings window's width.
@@ -29,14 +33,14 @@ public struct SettingsTab: Identifiable, View {
     public var windowHeight: CGFloat? = .settingsHeight
 
     /// The tab's content, but without the subtabs with the ``TabType.noSelection`` type.
-    private var contentWithoutNoSelectionSubtabs: [SettingsSubtab] {
+    var contentWithoutNoSelectionSubtabs: [SettingsSubtab] {
         content.filter { !$0.type.isNoSelection }
     }
 
     /// The view containing all the subtabs.
     public var body: some View {
         if content.count <= 1 && sidebarActions.isEmpty {
-            content.first
+            content.first?
                 .frame(width: windowWidth, height: windowHeight)
         } else {
             HSplitView {
@@ -48,7 +52,7 @@ public struct SettingsTab: Identifiable, View {
     }
 
     /// The tab's sidebar containing all the subtabs.
-    private var sidebar: some View {
+    var sidebar: some View {
         VStack {
             sidebarList
                 .overlay(alignment: .bottom) { Divider() }
@@ -62,8 +66,8 @@ public struct SettingsTab: Identifiable, View {
     }
 
     /// The list in the tab's sidebar.
-    private var sidebarList: some View {
-        Group {
+    var sidebarList: some View {
+        contentView {
             if #available(macOS 13, *) {
                 let notOptional = model.selectedSubtabs[id] ?? ""
                 List(
@@ -85,40 +89,46 @@ public struct SettingsTab: Identifiable, View {
                 }
             }
         }
-        .onChange(of: model.selectedSubtabs[id]) { newValue in
-            if !contentWithoutNoSelectionSubtabs.contains(where: { $0.id == newValue }) {
-                updateSubtabSelection(ids: contentWithoutNoSelectionSubtabs.map { $0.id })
-            }
-        }
-        .onChange(of: contentWithoutNoSelectionSubtabs.map { $0.id }) { updateSubtabSelection(ids: $0) }
-        .onAppear { updateSubtabSelection(ids: contentWithoutNoSelectionSubtabs.map { $0.id }) }
     }
 
     /// The body if the sidebar layout is active.
     @available(macOS 13, *)
     @ViewBuilder var sidebarBody: some View {
-        if content.count <= 1 { body } else {
-            NavigationStack {
-                Form {
-                    ForEach(content) { content in
-                        if !content.type.isNoSelection {
-                            NavigationLink(value: content.id) { content.sidebarLabel }
+        contentView {
+            if content.count <= 1 && top == nil && bottom == nil { body } else {
+                NavigationStack(path: .init { () -> [String] in
+                    if content.contains(where: { $0.id == model.selectedSubtabs[id] }) {
+                        return [model.selectedSubtabs[id] ?? ""]
+                    }
+                    return []
+                } set: { newValue in
+                    guard let first = newValue.first else {
+                        return
+                    }
+                    model.selectedSubtabs[id] = first
+                }) {
+                    Form {
+                        top
+                        ForEach(content) { content in
+                            if !content.type.isNoSelection {
+                                NavigationLink(value: content.id) { content.sidebarLabel }
+                            }
                         }
+                        if !sidebarActions.isEmpty {
+                            let bottomPadding = 5.0
+                            sidebarActions.padding(.bottom, bottomPadding)
+                        }
+                        bottom
                     }
-                    if !sidebarActions.isEmpty {
-                        let bottomPadding = 5.0
-                        sidebarActions
-                            .padding(.bottom, bottomPadding)
-                    }
+                    .formStyle(.grouped)
+                    .navigationDestination(for: String.self) { content[id: $0]?.body.navigationSubtitle("Hi") }
                 }
-                .formStyle(.grouped)
-                .navigationDestination(for: String.self) { content[id: $0]?.body }
             }
         }
     }
 
     /// The selected subtab's content.
-    private var contentView: some View {
+    var contentView: some View {
         Form {
             if let first = contentWithoutNoSelectionSubtabs.first(where: { $0.id == model.selectedSubtabs[id] }) {
                 first
@@ -166,181 +176,6 @@ public struct SettingsTab: Identifiable, View {
         self.content = content()
         self.color = color
         sidebarActions = []
-    }
-
-    /// A row in the sidebar list.
-    /// - Parameter subtab: The subtab of the row.
-    /// - Returns: The row.
-    @ViewBuilder
-    private func listContent(subtab: SettingsSubtab) -> some View {
-        if #available(macOS 13, *) {
-            subtab.label
-                .tag(subtab.id)
-                .listRowSeparator(.hidden)
-        } else {
-            subtab.label
-                .tag(subtab.id)
-        }
-    }
-
-    /// Update the selection of the subtab.
-    /// - Parameter ids: The identifiers of the subtabs.
-    private func updateSubtabSelection(ids: [String]) {
-        if let first = ids.first(where: { id in
-            !content.contains { $0.id == id }
-        }) {
-            model.selectedSubtabs[id] = first
-        } else if content.count > ids.count {
-            let index = contentWithoutNoSelectionSubtabs.firstIndex { $0.id == model.selectedSubtabs[id] }
-            if let after = ids[safe: index ?? ids.count] {
-                model.selectedSubtabs[id] = after
-            } else if let before = ids[safe: (index ?? 0) - 1] {
-                model.selectedSubtabs[id] = before
-            } else {
-                model.selectedSubtabs[id] = ids.last ?? ""
-            }
-        } else if !ids.contains(model.selectedSubtabs[id] ?? ""), let last = ids.last {
-            model.selectedSubtabs[id] = last
-        }
-    }
-
-    /// Adds actions to the settings sidebar.
-    /// - Parameter content: The actions.
-    /// - Returns: The new tab with the actions.
-    public func actions(@ArrayBuilder<ToolbarGroup> content: () -> [ToolbarGroup]) -> Self {
-        actions(content: content())
-    }
-
-    /// Add actions to the settings sidebar by providing an array.
-    /// - Parameter content: The actions as an array..
-    /// - Returns: The new tab with the actions.
-    public func actions(content: [ToolbarGroup]) -> Self {
-        var newTab = self
-        newTab.sidebarActions = content
-        return newTab
-    }
-
-    /// The standard set of actions with an add button, a remove button and optionally an options button.
-    /// - Parameters:
-    ///   - add: The action that is called when the add button is pressed.
-    ///   - remove: The action that is called when the remove button is pressed, 
-    ///             giving the the selected subtab's id and index.
-    ///   - options: The action that is called when the options button is pressed.
-    ///              If it is nil, there is no options button.
-    /// - Returns: The new tab with the actions.
-    public func standardActions(
-        add: @escaping () -> Void,
-        remove: @escaping (String?, Int?) -> Void,
-        options: (() -> Void)? = nil
-    ) -> Self {
-        actions {
-            ToolbarGroup {
-                ToolbarAction(
-                    .init(localized: "Add", comment: "SettingsTab (Label of the standard \"Add\" action)"),
-                    systemSymbol: .plus,
-                    action: add
-                )
-                ToolbarAction(
-                    .init(localized: "Remove", comment: "SettingsTab (Label of the standard \"Remove\" action)"),
-                    systemSymbol: .minus
-                ) {
-                    let index = content.firstIndex { $0.id == SettingsModel.shared.selectedSubtabs[id] }
-                    remove(content[safe: index]?.id, index)
-                }
-            }
-            .spacer()
-            if let options {
-                ToolbarGroup {
-                    ToolbarAction(
-                        .init(
-                            localized: "Options",
-                            comment: "SettingsTab (Label of the standard \"Options\" action)"
-                        ),
-                        systemSymbol: .ellipsis,
-                        action: options
-                    )
-                }
-            }
-        }
-    }
-
-    /// The standard set of actions with an add menu, a remove button and optionally an options button.
-    /// - Parameters:
-    ///   - add: The menu that is opened when the add button is pressed.
-    ///   - remove: The action that is called when the remove button is pressed,
-    ///             giving the the selected subtab's id and index.
-    ///   - options: The action that is called when the options button is pressed.
-    ///              If it is nil, there is no options button.
-    /// - Returns: The new tab with the actions.
-    public func standardActions<ContentView>(
-        @ViewBuilder add: @escaping () -> ContentView,
-        remove: @escaping (String?, Int?) -> Void,
-        options: (() -> Void)? = nil
-    ) -> Self where ContentView: View {
-        actions {
-            ToolbarGroup {
-                ToolbarMenu(
-                    .init(
-                        localized: "Add",
-                        comment: "SettingsTab (Label of the standard \"Add\" action)"
-                    ),
-                    systemSymbol: .plus
-                ) { add() }
-                ToolbarAction(
-                    .init(localized: "Remove", comment: "SettingsTab (Label of the standard \"Remove\" action)"),
-                    systemSymbol: .minus
-                ) {
-                    let index = content.firstIndex { $0.id == SettingsModel.shared.selectedSubtabs[id] }
-                    remove(content[safe: index]?.id, index)
-                }
-            }
-            .spacer()
-            if let options {
-                ToolbarGroup {
-                    ToolbarAction(
-                        .init(
-                            localized: "Options",
-                            comment: "SettingsTab (Label of the standard \"Options\" action)"
-                        ),
-                        systemSymbol: .ellipsis,
-                        action: options
-                    )
-                }
-            }
-        }
-    }
-
-    /// Set the window's width and height when this tab is open.
-    /// This is being ignored if there is more than one subtab or if there are settings actions.
-    /// - Parameters:
-    ///   - width: The width. If nil, the window uses the content's width.
-    ///   - height: The height. If nil, the window uses the content's height.
-    /// - Returns: The settings tab with the new window size.
-    public func frame(width: CGFloat? = nil, height: CGFloat? = nil) -> Self {
-        var newSelf = self
-        newSelf.windowWidth = width
-        newSelf.windowHeight = height
-        return newSelf
-    }
-
-    /// Set the window's width when this tab is open without affecting the height.
-    /// This is being ignored if there is more than one subtab or if there are settings actions.
-    /// - Parameter width: The width. If nil, the window uses the content's width.
-    /// - Returns: The settings tab with the new window size.
-    public func width(_ width: CGFloat? = nil) -> Self {
-        var newSelf = self
-        newSelf.windowWidth = width
-        return newSelf
-    }
-
-    /// Set the window's height when this tab is open without affecting the width.
-    /// This is being ignored if there is more than one subtab or if there are settings actions.
-    /// - Parameter height: The height. If nil, the window uses the content's height.
-    /// - Returns: The settings tab with the new window size.
-    public func height(_ height: CGFloat? = nil) -> Self {
-        var newSelf = self
-        newSelf.windowHeight = height
-        return newSelf
     }
 
 }
