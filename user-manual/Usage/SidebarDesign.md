@@ -15,3 +15,12 @@ SettingsTab(.new(title: "Accounts", icon: .at), id: "accounts") {
 
 ## Toolbar Items
 Adding toolbar items to the content view of a subtab with the default macOS design results in buggy behavior. This isn't the case for the sidebar design. It is possible to use toolbars for e.g. modifying or deleting items (an example can be found in the sample app under the "Accounts" tab when activating the sidebar design).
+
+## Disable the Automatic Selection of Subtabs
+Disable the automatic selection of subtabs with the following syntax:
+```swift
+SettingsTab(.new(title: "Accounts", icon: .at), id: "accounts") {
+    // Subtabs
+}
+.automaticSubtabSelection(false)
+```

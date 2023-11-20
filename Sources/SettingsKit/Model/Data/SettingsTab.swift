@@ -31,6 +31,8 @@ public struct SettingsTab: Identifiable, View {
     public var windowWidth: CGFloat? = .settingsWidth
     /// The settings window's height.
     public var windowHeight: CGFloat? = .settingsHeight
+    /// Whether a subtab is automatically selected after being created.
+    public var autoSelect = true
 
     /// The tab's content, but without the subtabs with the ``TabType.noSelection`` type.
     var contentWithoutNoSelectionSubtabs: [SettingsSubtab] {

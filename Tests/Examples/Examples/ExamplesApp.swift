@@ -41,7 +41,7 @@ struct ExamplesApp: App {
                         }
                     }
             } else {
-                accountsTab
+                accountsTab.automaticSubtabSelection(false)
             }
             SettingsTab(.new(title: "Advanced", icon: .gearshape2), id: "advanced") {
                 SettingsSubtab(.noSelection, id: "advanced") {

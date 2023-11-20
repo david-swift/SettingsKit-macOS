@@ -44,7 +44,7 @@ extension SettingsTab {
     func updateSubtabSelection(ids: [String]) {
         if let first = ids.first(where: { id in
             !content.contains { $0.id == id }
-        }) {
+        }), autoSelect {
             model.selectedSubtabs[id] = first
         } else if content.count > ids.count {
             let index = contentWithoutNoSelectionSubtabs.firstIndex { $0.id == model.selectedSubtabs[id] }
@@ -214,6 +214,15 @@ extension SettingsTab {
     public func bottom<Bottom>(_ view: () -> Bottom) -> Self where Bottom: View {
         var newSelf = self
         newSelf.bottom = .init(view())
+        return newSelf
+    }
+
+    /// Enable or disable the automatic selection of settings tabs that are created.
+    /// - Parameter enabled: Whether settings tabs that are created are automatically selected.
+    /// - Returns: The settings tab.
+    public func automaticSubtabSelection(_ enabled: Bool = true) -> Self {
+        var newSelf = self
+        newSelf.autoSelect = enabled
         return newSelf
     }
 

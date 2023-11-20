@@ -12,7 +12,7 @@ A tab in the settings window.
 ### `model`
 
 ```swift
-@StateObject var model = SettingsModel.shared
+@ObservedObject var model = SettingsModel.shared
 ```
 
 The instance of the settings model.
@@ -88,6 +88,14 @@ public var windowHeight: CGFloat? = .settingsHeight
 ```
 
 The settings window's height.
+
+### `autoSelect`
+
+```swift
+public var autoSelect = true
+```
+
+Whether a subtab is automatically selected after being created.
 
 ### `contentWithoutNoSelectionSubtabs`
 
