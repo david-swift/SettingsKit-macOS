@@ -12,7 +12,7 @@ import SwiftUI
 public struct SettingsTab: Identifiable, View {
 
     /// The instance of the settings model.
-    @StateObject var model = SettingsModel.shared
+    @ObservedObject var model = SettingsModel.shared
     /// The tab's identifier.
     public let id: String
     /// The tab's type.
