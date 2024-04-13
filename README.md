@@ -4,7 +4,7 @@
 </p>
 
 <p align="center">
-  <a href="https://david-swift.github.io/settingskit-macos/">
+  <a href="https://david-swift.github.io/SettingsKit-macOS/">
   Documentation
   </a>
   ·
@@ -42,7 +42,7 @@ _SettingsKit_ makes it easier to add a settings window to a SwiftUI app for macO
 
 ## Usage
 
-An example app project is available [here.][4] Browse the documentation [here.](https://david-swift.github.io/settingskit-macos/)
+An example app project is available [here.][4] Browse the documentation [here.](https://david-swift.github.io/SettingsKit-macOS/)
 
 ## Thanks
 
