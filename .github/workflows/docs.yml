@@ -27,6 +27,7 @@ jobs:
             -scheme SettingsKit \
             -destination 'generic/platform=macOS' \
             -derivedDataPath "$PWD/.derivedData"
+            -skipPackagePluginValidation
           xcrun docc process-archive transform-for-static-hosting \
             "$PWD/.derivedData/Build/Products/Debug/Adwaita.doccarchive" \
             --output-path "docs" \
