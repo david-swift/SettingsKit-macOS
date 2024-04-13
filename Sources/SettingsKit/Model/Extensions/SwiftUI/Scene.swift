@@ -12,7 +12,9 @@ extension Scene {
 
     /// Adds the settings to a scene.
     /// - Parameters:
+    ///   - design: Whether the default or sidebar design is used.
     ///   - symbolVariant: The way symbols should be displayed.
+    ///   - selectedTab: The currently selected tab.
     ///   - settings: The settings tabs in the settings window.
     /// - Returns: The scene with the settings.
     ///
@@ -30,6 +32,7 @@ extension Scene {
     public func settings(
         design: SettingsWindowDesign = .default,
         symbolVariant: SymbolVariants = .none,
+        selectedTab: Binding<String>? = nil,
         @ArrayBuilder<SettingsTab> _ settings: () -> [SettingsTab]
     ) -> some Scene {
         let (settings, standardID) = getSettings(settings())
@@ -38,7 +41,8 @@ extension Scene {
             settings: settings,
             standardID: standardID,
             symbolVariant: symbolVariant,
-            design: design
+            design: design,
+            selectedTab: selectedTab
         )
     }
 

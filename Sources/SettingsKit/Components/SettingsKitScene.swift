@@ -24,6 +24,8 @@ struct SettingsKitScene<Content>: Scene where Content: Scene {
     var design: SettingsWindowDesign
     /// The filter in the sidebar design.
     @State private var search = ""
+    /// The binding controlling the selection.
+    var selectedTab: Binding<String>?
 
     /// The scene.
     var body: some Scene {
@@ -38,6 +40,17 @@ struct SettingsKitScene<Content>: Scene where Content: Scene {
                     }
                 }
                 .symbolVariant(symbolVariant)
+                .onChange(of: selectedTab?.wrappedValue) { newValue in
+                    if let newValue {
+                        model.selectedTab = newValue
+                    }
+                }
+                .onAppear {
+                    model.selectedTab = selectedTab?.wrappedValue ?? ""
+                }
+                .onChange(of: model.selectedTab) { newValue in
+                    selectedTab?.wrappedValue = newValue
+                }
             }
         }
     }

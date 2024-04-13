@@ -18,13 +18,19 @@ struct TestAppApp: App {
     /// Whether the sidebar design should be used for the settings window.
     @AppStorage("sidebar-design")
     var sidebarDesign = false
+    /// The currently selected tab.
+    @AppStorage("tab")
+    var selectedTab = ""
 
     /// The main view of the test app.
     var body: some Scene {
         Window("Window", id: "Window") {
             ContentView()
+            Button("Select Test") {
+                selectedTab = "test"
+            }
         }
-        .settings(design: sidebarDesign ? .sidebar : .default) {
+        .settings(design: sidebarDesign ? .sidebar : .default, selectedTab: $selectedTab) {
             for settingsTab in appModel.allSettings {
                 settingsTab
             }
