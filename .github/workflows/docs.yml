@@ -1,0 +1,44 @@
+name: Deploy Docs
+
+on:
+  push:
+    branches: ["main"]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  Deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build Docs
+        run: |
+          xcrun xcodebuild docbuild \
+            -scheme SettingsKit \
+            -destination 'generic/platform=macOS' \
+            -derivedDataPath "$PWD/.derivedData"
+          xcrun docc process-archive transform-for-static-hosting \
+            "$PWD/.derivedData/Build/Products/Debug/Adwaita.doccarchive" \
+            --output-path "docs" \
+            --hosting-base-path "settingskit-macos"
+      - name: Modify Docs
+        run: |
+          echo "<script>window.location.href += \"/documentation/settingskit\"</script>" > docs/index.html;
+          sed -i '' 's/,2px/,10px/g' docs/css/index.038e887c.css
+      - name: Upload Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'docs'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

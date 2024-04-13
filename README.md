@@ -4,16 +4,13 @@
 </p>
 
 <p align="center">
-  <a href="https://david-swift.gitbook.io/settingskit/">
-  User Manual
+  <a href="https://david-swift.github.io/settingskit-macos/">
+  Documentation
   </a>
   ·
   <a href="https://github.com/david-swift/SettingsKit-macOS">
   GitHub
   </a>
-  ·
-  <a href="Documentation/Reference/SettingsKit/README.md">
-  Contributor Docs
   </a>
 </p>
 
@@ -45,16 +42,7 @@ _SettingsKit_ makes it easier to add a settings window to a SwiftUI app for macO
 
 ## Usage
 
-An example app project is available [here.][4]
-
-* [Getting Started][5]
-
-### Usage
-
-* [Add a Settings Window][6]
-* [Tabs & Subtabs][7]
-* [Actions][8]  
-* [The Sidebar Design][9]
+An example app project is available [here.][4] Browse the documentation [here.](https://david-swift.github.io/settingskit-macos/)
 
 ## Thanks
 
@@ -65,7 +53,6 @@ An example app project is available [here.][4]
 
 ### Other Thanks
 - The [contributors][16]
-- [SourceDocs][17] used for generating the [docs][18]
 - [SwiftLint][19] for checking whether code style conventions are violated
 - The programming language [Swift][20]
 
@@ -73,11 +60,6 @@ An example app project is available [here.][4]
 [2]:	#usage
 [3]:	#thanks
 [4]:	/Tests/Examples/
-[5]:	user-manual/GettingStarted.md
-[6]:	user-manual/Usage/AddSettingsWindow.md
-[7]:	user-manual/Usage/TabsAndSubtabs.md
-[8]:	user-manual/Usage/Actions.md
-[9]:	user-manual/Usage/SidebarDesign.md
 [10]:	https://github.com/SFSafeSymbols/SFSafeSymbols
 [11]:	https://github.com/SFSafeSymbols/SFSafeSymbols/blob/stable/LICENSE
 [12]:	https://github.com/lukepistrol/SwiftLintPlugin
@@ -85,7 +67,6 @@ An example app project is available [here.][4]
 [14]:	https://github.com/david-swift/ColibriComponents-macOS
 [15]:	https://github.com/david-swift/ColibriComponents-macOS/blob/main/LICENSE.md
 [16]:	Contributors.md
-[17]:	https://github.com/SourceDocs/SourceDocs
 [18]:	Documentation/Reference/SettingsKit-macOS/README.md
 [19]:	https://github.com/realm/SwiftLint
 [20]:	https://github.com/apple/swift

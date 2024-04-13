@@ -2,12 +2,12 @@
 
 Actions are buttons, menus and other views below the list of subtabs. They “belong” to the subtabs which means that those actions should affect the subtabs. An important difference between the default and sidebar design is that in the default design, the actions are visible while a subtab is selected, which isn’t the case with the sidebar design.
 
-## Create Custom Actions
+## Create custom actions
 1. Add the following import:
 ```swift
 import ColibriComponents
 ```
-2. Now, add the `.actions(content:)` modifier to your settings tab:
+2. Now, add the actions modifier to your settings tab:
 ```swift
 SettingsTab(.new(title: "Accounts", icon: .at), id: "accounts") {
     // Subtabs
@@ -28,8 +28,5 @@ ToolbarGroup {
 - `ToolbarAction` results in a button
 - `ToolbarMenu` is a menu
 
-## Standard Actions
-For the most common case with a “+” button or menu, “-“ button and optionally an ellipsis button, there are modifiers available (`standardActions(add:remove:options:`) that directly add those to a settings tab.
-
-## Get the Selected Tab or Subtab
-You can get the currently selected tab or subtab using the static `SettingsAction.getSelection()` function.
+## Standard actions
+For the most common case with a “+” button or menu, “-“ button and optionally an ellipsis button, there are modifiers available (``SettingsTab/standardActions(add:remove:options:)-57w0k``) that directly add those to a settings tab.

@@ -1,0 +1,31 @@
+{
+    "theme": {
+        "border-radius": "10px",
+        "button": {
+            "border-radius": "20px"
+        },
+        "color": {
+            "button-background": "#3490EC",
+            "button-background-active": "#3490EC",
+            "button-background-hover": "#5688FD",
+            "button-text": "#ffffff",
+            "header": "#323F80",
+            "documentation-intro-accent": "var(--color-header)",
+            "documentation-intro-fill": "radial-gradient(circle at top, var(--color-header) 30%, #000 100%)",
+            "link": "#3490EC",
+            "nav-link-color": "#3490EC",
+            "nav-dark-link-color": "#3490EC",
+            "tabnav-item-border-color": "#3490EC",
+            "fill-light-blue-secondary": "#3490EC",
+            "fill-blue": "#3490EC",
+            "figure-blue": "#3490EC",
+            "standard-blue-documentation-intro-fill": "#3490EC",
+            "figure-blue": "#3490EC",
+            "navigator-item-hover": {
+                "light": "#3490EC15",
+                "dark": "#2B466F"
+            }
+        },
+        "additionalProperties": "#3490EC"
+    }
+}
