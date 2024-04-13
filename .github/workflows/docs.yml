@@ -31,7 +31,7 @@ jobs:
           xcrun docc process-archive transform-for-static-hosting \
             "$PWD/.derivedData/Build/Products/Debug/SettingsKit.doccarchive" \
             --output-path "docs" \
-            --hosting-base-path "settingskit-macos"
+            --hosting-base-path "SettingsKit-macOS"
       - name: Modify Docs
         run: |
           echo "<script>window.location.href += \"/documentation/settingskit\"</script>" > docs/index.html;
