@@ -29,7 +29,7 @@ jobs:
             -derivedDataPath "$PWD/.derivedData" \
             -skipPackagePluginValidation
           xcrun docc process-archive transform-for-static-hosting \
-            "$PWD/.derivedData/Build/Products/Debug/Adwaita.doccarchive" \
+            "$PWD/.derivedData/Build/Products/Debug/SettingsKit.doccarchive" \
             --output-path "docs" \
             --hosting-base-path "settingskit-macos"
       - name: Modify Docs
