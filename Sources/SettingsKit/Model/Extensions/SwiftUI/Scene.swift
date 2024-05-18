@@ -14,6 +14,7 @@ extension Scene {
     /// - Parameters:
     ///   - design: Whether the default or sidebar design is used.
     ///   - symbolVariant: The way symbols should be displayed.
+    ///   - preferredColorScheme: Force either light or dark mode.
     ///   - selectedTab: The currently selected tab.
     ///   - settings: The settings tabs in the settings window.
     /// - Returns: The scene with the settings.
@@ -32,6 +33,7 @@ extension Scene {
     public func settings(
         design: SettingsWindowDesign = .default,
         symbolVariant: SymbolVariants = .none,
+        preferredColorScheme: ColorScheme? = nil,
         selectedTab: Binding<String>? = nil,
         @ArrayBuilder<SettingsTab> _ settings: () -> [SettingsTab]
     ) -> some Scene {
@@ -42,6 +44,7 @@ extension Scene {
             standardID: standardID,
             symbolVariant: symbolVariant,
             design: design,
+            colorScheme: preferredColorScheme,
             selectedTab: selectedTab
         )
     }

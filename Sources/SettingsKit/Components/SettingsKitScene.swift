@@ -22,6 +22,8 @@ struct SettingsKitScene<Content>: Scene where Content: Scene {
     var symbolVariant: SymbolVariants
     /// The design of the settings window.
     var design: SettingsWindowDesign
+    /// The preferred color scheme.
+    var colorScheme: ColorScheme?
     /// The filter in the sidebar design.
     @State private var search = ""
     /// The binding controlling the selection.
@@ -51,6 +53,7 @@ struct SettingsKitScene<Content>: Scene where Content: Scene {
                 .onChange(of: model.selectedTab) { newValue in
                     selectedTab?.wrappedValue = newValue
                 }
+                .preferredColorScheme(colorScheme)
             }
         }
     }

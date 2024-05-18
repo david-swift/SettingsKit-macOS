@@ -21,6 +21,9 @@ struct TestAppApp: App {
     /// The currently selected tab.
     @AppStorage("tab")
     var selectedTab = ""
+    /// The preferred color scheme.
+    @AppStorage("scheme")
+    var forceDark = false
 
     /// The main view of the test app.
     var body: some Scene {
@@ -30,7 +33,11 @@ struct TestAppApp: App {
                 selectedTab = "test"
             }
         }
-        .settings(design: sidebarDesign ? .sidebar : .default, selectedTab: $selectedTab) {
+        .settings(
+                design: sidebarDesign ? .sidebar : .default,
+                preferredColorScheme: forceDark ? .dark : nil,
+                selectedTab: $selectedTab
+        ) {
             for settingsTab in appModel.allSettings {
                 settingsTab
             }
@@ -38,8 +45,11 @@ struct TestAppApp: App {
                 SettingsSubtab(.noSelection, id: "subtab") {
                     let width = 500.0
                     let height = 100.0
-                    Toggle("Sidebar Design", isOn: $sidebarDesign)
-                        .frame(width: width, height: height)
+                    Form {
+                        Toggle("Sidebar Design", isOn: $sidebarDesign)
+                        Toggle("Force Dark Design", isOn: $forceDark)
+                    }
+                    .frame(width: width, height: height)
                 }
             }
             .frame()
