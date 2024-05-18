@@ -4,7 +4,7 @@ _SettingsKit_ is a library making it easier to add a settings window to your mac
 
 ## Overview
 
-You can add a settings window to an existing scene using the ``SwiftUI/Scene/settings(design:symbolVariant:selectedTab:_:)`` modifier.
+You can add a settings window to an existing scene using the ``SwiftUI/Scene/settings(design:symbolVariant:preferredColorScheme:selectedTab:_:)`` modifier.
 
 Find a tutorial covering all the steps under <doc:GettingStarted>.
 

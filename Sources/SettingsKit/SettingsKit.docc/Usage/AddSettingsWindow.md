@@ -7,7 +7,7 @@ Adding a settings window to your existing macOS app written in SwiftUI is very s
 ```swift
 import SettingsKit
 ```
-2. Add the ``SwiftUI/Scene/settings(design:symbolVariant:selectedTab:_:)`` modifier to your scene, in this example `WindowGroup`:
+2. Add the ``SwiftUI/Scene/settings(design:symbolVariant:preferredColorScheme:selectedTab:_:)`` modifier to your scene, in this example `WindowGroup`:
 ```swift
 var body: some Scene {
     WindowGroup {
