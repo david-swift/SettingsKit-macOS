@@ -66,7 +66,7 @@ extension Array where Element: Identifiable {
 
 }
 
-extension Array: @retroactive View where Element == ToolbarGroup {
+extension Array: View where Element == ToolbarGroup {
 
     /// The toolbar.
     public var body: some View {
