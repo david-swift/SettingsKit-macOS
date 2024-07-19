@@ -4,7 +4,7 @@ The settings modifier expects a list of settings tabs as its content. Settings t
 
 ## Tabs
 The settings tab initializer accepts three to four parameters.
-- Tab type: Either ``TabType/new(title:icon:)`` with the tab’s title and icon for creating a new tab (almost always used), or ``TabType/extend(id:)`` in rare cases where you want to add subtabs to an already existing tab. Tabs with the type `.noSelection` are not rendered.
+- Tab type: Either ``TabType/new(title:image:)`` with the tab’s title and icon for creating a new tab (almost always used), or ``TabType/extend(id:)`` in rare cases where you want to add subtabs to an already existing tab. Tabs with the type `.noSelection` are not rendered.
 - ID: A string that differs from the IDs of all of the other tabs.
 - Color (optional): This parameter only has an effect when using the sidebar settings style. It sets the background color of the icon in the sidebar.
 - Content: The subtabs in that tab.
@@ -23,7 +23,7 @@ Normally, _SettingsKit_ uses a fixed width and height. That is not always desire
 
 ## Subtabs
 The settings subtab initializer accepts the same parameters as the settings tab initializer, but there are some differences:
-- Tab type: ``TabType/new(title:icon:)``, ``TabType/extend(id:)`` or ``TabType/noSelection``. ``TabType/noSelection`` means that this subtab is selected if no other subtab is available. It is not visible in the list of subtabs.
+- Tab type: ``TabType/new(title:image:)``, ``TabType/extend(id:)`` or ``TabType/noSelection``. ``TabType/noSelection`` means that this subtab is selected if no other subtab is available. It is not visible in the list of subtabs.
 - ID: A string that differs from the IDs of all of the other subtabs.
 - Color (optional): This parameter only has an effect when using the sidebar settings style. It sets the background color of the icon in the subtabs list.
 - Content: A SwiftUI view which is displayed when this subtab is selected. In many cases, it might make sense to use SwiftUI’s `Form` structure inside of subtabs. When using the sidebar style, the grouped form style is set if you do not overwrite it.

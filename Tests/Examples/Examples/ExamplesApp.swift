@@ -27,7 +27,7 @@ struct ExamplesApp: App {
             ContentView()
         }
         .settings(design: defaultSettingsDesign ? .default : .sidebar) {
-            SettingsTab(.new(title: "General", icon: .gearshape), id: "general", color: .gray) {
+            SettingsTab(.new(title: "General", image: .init(systemName: "gearshape")), id: "general", color: .gray) {
                 SettingsSubtab(.noSelection, id: "general") { GeneralSettings() }
             }
             .frame()
@@ -43,7 +43,7 @@ struct ExamplesApp: App {
             } else {
                 accountsTab.automaticSubtabSelection(false)
             }
-            SettingsTab(.new(title: "Advanced", icon: .gearshape2), id: "advanced") {
+            SettingsTab(.new(title: "Advanced", image: .init(systemName: "gearshape.2")), id: "advanced") {
                 SettingsSubtab(.noSelection, id: "advanced") {
                     VStack {
                         Spacer()
@@ -62,9 +62,12 @@ struct ExamplesApp: App {
 
     /// The sample "Accounts" tab.
     private var accountsTab: SettingsTab {
-        .init(.new(title: "Accounts", icon: .at), id: "accounts") {
+        .init(.new(title: "Accounts", image: .init(systemName: "at")), id: "accounts") {
             for account in self.accounts {
-                SettingsSubtab(.new(title: "Account \(account + 1)", icon: .personFill), id: "account-\(account)") {
+                SettingsSubtab(
+                    .new(title: "Account \(account + 1)", image: .init(systemName: "person.fill")),
+                    id: "account-\(account)"
+                ) {
                     if defaultSettingsDesign {
                         AccountView(account: account)
                     } else {

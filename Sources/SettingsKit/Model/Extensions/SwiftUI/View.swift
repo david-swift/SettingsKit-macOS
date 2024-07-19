@@ -24,16 +24,47 @@ extension View {
             if #available(macOS 13, *) {
                 rect.foregroundStyle(color.gradient)
             } else {
-                rect.foregroundStyle(color)
+                rect.foregroundColor(color)
             }
         }
-        return view.overlay {
-            font(.body.bold())
-                .symbolVariant(.fill)
-                .foregroundStyle(.white)
+        return ZStack {
+            view
+            let font = font(.body.bold())
+                .foregroundColor(.white)
                 .shadow(radius: iconShadowRadius)
                 .padding(iconPadding)
+            if #available(macOS 12, *) {
+                font.symbolVariant(.fill)
+            } else {
+                font
+            }
         }
+    }
+
+    /// Style a view to fit into the custom toolbar.
+    /// - Parameter visible: The visibility of the background.
+    /// - Returns: The view with the background if visible is true, otherwise the view.
+    public func customToolbarBackground(visible: Bool) -> some View {
+        let opacity = 0.05
+        let cornerRadius = 10.0
+        return VStack {
+            self
+            RoundedRectangle(cornerRadius: cornerRadius)
+                .foregroundColor(.secondary.opacity(visible ? opacity : 0))
+        }
+    }
+
+    /// Modifies the view for a custom toolbar item.
+    /// - Parameter padding: The horizontal padding of the item.
+    /// - Returns: A view containing the item.
+    internal func customToolbarItem(padding: Edge.Set) -> some View {
+        let sideLength = 20.0
+        let paddingValue = 5.0
+        return frame(width: sideLength, height: sideLength)
+            .labelStyle(.iconOnly)
+            .padding([.vertical, padding], paddingValue)
+            .buttonStyle(.plain)
+            .contentShape(Rectangle())
     }
 
 }

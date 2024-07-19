@@ -47,12 +47,9 @@ An example app project is available [here.][4] Browse the documentation [here.](
 ## Thanks
 
 ### Dependencies
-- [SFSafeSymbols][10] licensed under the [MIT license][11]
 - [SwiftLintPlugin][12] licensed under the [MIT license][13]
-- [ColibriComponents][14] licensed under the [MIT license][15]
 
 ### Other Thanks
-- The [contributors][16]
 - [SwiftLint][19] for checking whether code style conventions are violated
 - The programming language [Swift][20]
 
@@ -66,7 +63,6 @@ An example app project is available [here.][4] Browse the documentation [here.](
 [13]:	https://github.com/lukepistrol/SwiftLintPlugin/blob/main/LICENSE
 [14]:	https://github.com/david-swift/ColibriComponents-macOS
 [15]:	https://github.com/david-swift/ColibriComponents-macOS/blob/main/LICENSE.md
-[16]:	Contributors.md
 [18]:	Documentation/Reference/SettingsKit-macOS/README.md
 [19]:	https://github.com/realm/SwiftLint
 [20]:	https://github.com/apple/swift

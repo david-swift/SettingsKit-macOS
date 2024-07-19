@@ -19,7 +19,7 @@ struct SettingsKitScene<Content>: Scene where Content: Scene {
     /// The identifier of the settings tab with the keyboard shortcut.
     var standardID: String
     /// Modify the way symbols are displayed.
-    var symbolVariant: SymbolVariants
+    var symbolVariant: Any?
     /// The design of the settings window.
     var design: SettingsWindowDesign
     /// The preferred color scheme.
@@ -29,19 +29,24 @@ struct SettingsKitScene<Content>: Scene where Content: Scene {
     /// The binding controlling the selection.
     var selectedTab: Binding<String>?
 
+    /// Get the symbol variants as symbol variants in macOS 12.
+    @available(macOS 12, *)
+    var unwrappedSymbolVariant: SymbolVariants? {
+        symbolVariant as? SymbolVariants
+    }
+
     /// The scene.
     var body: some Scene {
         Group {
             content
             Settings {
-                Group {
+                let group = Group {
                     if #available(macOS 13, *), design == .sidebar {
                         navigationView
                     } else {
                         tabView
                     }
                 }
-                .symbolVariant(symbolVariant)
                 .onChange(of: selectedTab?.wrappedValue) { newValue in
                     if let newValue {
                         model.selectedTab = newValue
@@ -54,6 +59,7 @@ struct SettingsKitScene<Content>: Scene where Content: Scene {
                     selectedTab?.wrappedValue = newValue
                 }
                 .preferredColorScheme(colorScheme)
+                group
             }
         }
     }
@@ -62,15 +68,13 @@ struct SettingsKitScene<Content>: Scene where Content: Scene {
     @available(macOS 13, *)
     private var navigationView: some View {
         NavigationView {
-            List(selection: SettingsModel.shared.selectedTab.binding { newValue in
-                model.selectedTab = newValue
-            }) {
+            List(selection: .init { SettingsModel.shared.selectedTab } set: { model.selectedTab = $0 }) {
                 Section {
                     ForEach(settings.filter { tab in
-                        if case let .new(title: title, icon: _) = tab.type {
+                        if case let .new(title: title, image: _) = tab.type {
                             let search = search.lowercased()
                             let contentContains = tab.content.contains { subtab in
-                                if case let .new(title: title, icon: _) = subtab.type {
+                                if case let .new(title: title, image: _) = subtab.type {
                                     return title.lowercased().contains(search)
                                 }
                                 return false
@@ -84,7 +88,7 @@ struct SettingsKitScene<Content>: Scene where Content: Scene {
             let tab = settings.first { $0.id == SettingsModel.shared.selectedTab }
             tab?.sidebarBody
                 .navigationTitle({ () -> String in
-                    if case let .new(title: title, icon: _) = tab?.type {
+                    if case let .new(title: title, image: _) = tab?.type {
                         return title
                     } else {
                         return ""
@@ -110,7 +114,7 @@ struct SettingsKitScene<Content>: Scene where Content: Scene {
 
     /// The view with the tab design.
     private var tabView: some View {
-        TabView(selection: SettingsModel.shared.selectedTab.binding { newValue in
+        TabView(selection: .init { SettingsModel.shared.selectedTab } set: { newValue in
             model.selectedTab = newValue
         }) {
             ForEach(settings) { tab in
@@ -123,10 +127,12 @@ struct SettingsKitScene<Content>: Scene where Content: Scene {
                 }
             }
         }
-        .task {
-            let window = NSApplication.shared.keyWindow
-            window?.toolbarStyle = .preference
-            window?.toolbar?.displayMode = .iconAndLabel
+        .onAppear {
+            Task {
+                let window = NSApplication.shared.keyWindow
+                window?.toolbarStyle = .preference
+                window?.toolbar?.displayMode = .iconAndLabel
+            }
         }
         .onAppear {
             let selection = SettingsModel.shared.selectedTab

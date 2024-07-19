@@ -5,7 +5,6 @@
 //  Created by david-swift on 20.01.23.
 //
 
-import ColibriComponents
 import SwiftUI
 
 extension Scene {
@@ -30,6 +29,7 @@ extension Scene {
     ///     }
     /// }
     /// ```
+    @available(macOS, introduced: 12)
     public func settings(
         design: SettingsWindowDesign = .default,
         symbolVariant: SymbolVariants = .none,
@@ -43,6 +43,43 @@ extension Scene {
             settings: settings,
             standardID: standardID,
             symbolVariant: symbolVariant,
+            design: design,
+            colorScheme: preferredColorScheme,
+            selectedTab: selectedTab
+        )
+    }
+
+    /// Adds the settings to a scene.
+    /// - Parameters:
+    ///   - design: Whether the default or sidebar design is used.
+    ///   - preferredColorScheme: Force either light or dark mode.
+    ///   - selectedTab: The currently selected tab.
+    ///   - settings: The settings tabs in the settings window.
+    /// - Returns: The scene with the settings.
+    ///
+    /// Use it as a modifier for a scene:
+    /// ```swift
+    /// WindowGroup {
+    ///     ContentView()
+    /// }
+    /// .settings {
+    ///     SettingsTab(.init("General", systemSymbol: .gearshape), id: "general-tab") {
+    ///         GeneralTabContent()
+    ///     }
+    /// }
+    /// ```
+    public func settings(
+        design: SettingsWindowDesign = .default,
+        preferredColorScheme: ColorScheme? = nil,
+        selectedTab: Binding<String>? = nil,
+        @ArrayBuilder<SettingsTab> _ settings: () -> [SettingsTab]
+    ) -> some Scene {
+        let (settings, standardID) = getSettings(settings())
+        return SettingsKitScene(
+            content: self,
+            settings: settings,
+            standardID: standardID,
+            symbolVariant: 0,
             design: design,
             colorScheme: preferredColorScheme,
             selectedTab: selectedTab

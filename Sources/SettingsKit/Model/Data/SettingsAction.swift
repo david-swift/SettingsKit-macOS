@@ -23,8 +23,8 @@ public enum SettingsAction {
     ///   - tab: The identifier of the new tab selection.
     ///   - subtab: The identifier of the new subtab selection.
     @available(
-        *,
-        deprecated,
+        macOS,
+        deprecated: 14,
         message: """
         This function does no longer work in macOS 14 or higher.
         Please use the "SettingsLink" SwiftUI view for adding a button for opening the settings.

@@ -12,7 +12,7 @@ import PackageDescription
 let package = Package(
     name: "SettingsKit",
     platforms: [
-        .macOS(.v12)
+        .macOS(.v11)
     ],
     products: [
         .library(
@@ -21,15 +21,11 @@ let package = Package(
         )
     ],
     dependencies: [
-        .package(url: "https://github.com/lukepistrol/SwiftLintPlugin", from: "0.2.2"),
-        .package(url: "https://github.com/david-swift/ColibriComponents-macOS", from: "0.1.10")
+        .package(url: "https://github.com/lukepistrol/SwiftLintPlugin", from: "0.2.2")
     ],
     targets: [
         .target(
             name: "SettingsKit",
-            dependencies: [
-                .product(name: "ColibriComponents", package: "ColibriComponents-macOS")
-            ],
             plugins: [
                 .plugin(name: "SwiftLint", package: "SwiftLintPlugin")
             ]

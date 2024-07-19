@@ -5,7 +5,6 @@
 //  Created by david-swift on 20.01.23.
 //
 
-import ColibriComponents
 import SwiftUI
 
 /// A tab in the settings window.
@@ -55,14 +54,22 @@ public struct SettingsTab: Identifiable, View {
 
     /// The tab's sidebar containing all the subtabs.
     var sidebar: some View {
-        VStack {
-            sidebarList
-                .overlay(alignment: .bottom) { Divider() }
-            if !sidebarActions.isEmpty {
-                sidebarActions.padding(.bottom, .actionsPadding)
+        ZStack {
+            Color(.textBackgroundColor)
+            VStack {
+                ZStack {
+                    sidebarList
+                    VStack {
+                        Spacer()
+                        Divider()
+                    }
+                }
+                if !sidebarActions.isEmpty {
+                    sidebarActions
+                        .padding(.bottom, .actionsPadding)
+                }
             }
         }
-        .background(.background)
         .frame(height: .settingsHeight)
         .frame(minWidth: .settingsSidebarWidth)
     }
@@ -74,7 +81,9 @@ public struct SettingsTab: Identifiable, View {
                 let notOptional = model.selectedSubtabs[id] ?? ""
                 List(
                     contentWithoutNoSelectionSubtabs,
-                    selection: notOptional.binding { newValue in
+                    selection: .init {
+                        notOptional
+                    } set: { newValue in
                         model.selectedSubtabs[id] = newValue
                     }
                 ) { subtab in
@@ -83,7 +92,9 @@ public struct SettingsTab: Identifiable, View {
             } else {
                 List(
                     contentWithoutNoSelectionSubtabs,
-                    selection: model.selectedSubtabs[id].binding { newValue in
+                    selection: .init {
+                        model.selectedSubtabs[id]
+                    } set: { newValue in
                         model.selectedSubtabs[id] = newValue
                     }
                 ) { subtab in
@@ -143,17 +154,21 @@ public struct SettingsTab: Identifiable, View {
 
     /// The label of a custom tab, or else nil.
     public var label: Label<Text, Image>? {
-        guard case let .new(title: title, icon: icon) = type else {
+        guard case let .new(title: title, image: icon) = type else {
             return nil
         }
-        return .init(title, systemSymbol: icon)
+        return .init {
+            Text(title)
+        } icon: {
+            icon
+        }
     }
 
     /// The label in the sidebar.
     @ViewBuilder public var sidebarLabel: some View {
-        if case let .new(title: title, icon: icon) = type {
+        if case let .new(title: title, image: icon) = type {
             HStack {
-                Image(systemSymbol: icon)
+                icon
                     .sidebarSettingsIcon(color: color)
                     .accessibilityHidden(true)
                 Text(title)

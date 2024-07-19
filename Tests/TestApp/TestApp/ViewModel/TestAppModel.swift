@@ -5,9 +5,7 @@
 //  Created by david-swift on 27.01.23.
 //
 
-import ColibriComponents
 import SettingsKit
-import SFSafeSymbols
 import SwiftUI
 
 /// The app model of the test app.
@@ -19,12 +17,12 @@ class TestAppModel: ObservableObject {
     /// The settings.
     @Published private var settings: [SettingsTab]
 
-    /// All the settings: the "Settings" tab + the ``settings``.
+    /// All the settings: the "Settings" tab + the `settings`.
     @ArrayBuilder<SettingsTab> var allSettings: [SettingsTab] {
         SettingsTab(
             .new(
                 title: "Settings",
-                icon: .gearshape
+                image: .init(systemName: "gearshape")
             ),
             id: "settings-tab"
         ) {
@@ -56,9 +54,13 @@ class TestAppModel: ObservableObject {
     /// The subtabs in the "Setttings" tab that represent the other tabs.
     @ArrayBuilder<SettingsSubtab> private var tabsGeneralSubtabs: [SettingsSubtab] {
         for settingsTab in settings {
-            if case let .new(title: title, icon: icon) = settingsTab.type {
-                SettingsSubtab(.new(title: title, icon: icon), id: settingsTab.id) {
-                    Label(title, systemSymbol: icon)
+            if case let .new(title: title, image: icon) = settingsTab.type {
+                SettingsSubtab(.new(title: title, image: icon), id: settingsTab.id) {
+                    Label {
+                        Text(title)
+                    } icon: {
+                        icon
+                    }
                 }
             }
         }
@@ -78,16 +80,16 @@ class TestAppModel: ObservableObject {
 
     /// Generates a new settings tab.
     var newTab: SettingsTab {
-        .init(.new(title: randomLabel.0, icon: randomLabel.1), id: UUID().uuidString) {
+        .init(.new(title: randomLabel.0, image: .init(systemName: randomLabel.1)), id: UUID().uuidString) {
             SettingsSubtab(.noSelection, id: "no-selection-subtab") {
-                Label(randomLabel.0, systemSymbol: randomLabel.1)
+                Label(randomLabel.0, systemImage: randomLabel.1)
             }
         }
     }
 
     /// Generates a new settings tab.
     var colorTab: SettingsTab {
-        .init(.new(title: randomLabel.0, icon: randomLabel.1), id: UUID().uuidString) {
+        .init(.new(title: randomLabel.0, image: .init(systemName: randomLabel.1)), id: UUID().uuidString) {
             SettingsSubtab(.noSelection, id: "no-selection-subtab") {
                 Color.accentColor
             }
@@ -95,25 +97,16 @@ class TestAppModel: ObservableObject {
     }
 
     /// Generates a random label.
-    private var randomLabel: (String, SFSymbol) {
-        var dot = false
-        return (
-            randomSymbol.rawValue.compactMap { char -> String? in
-                if char == "." {
-                    dot = true
-                } else if !dot {
-                    return String(char)
-                }
-                return nil
-            }
-            .joined(),
+    private var randomLabel: (String, String) {
+        (
+            "Test Tab",
             randomSymbol
         )
     }
 
     /// Chooses a random SFSymbol.
-    private var randomSymbol: SFSymbol {
-        .allSymbols.randomElement() ?? .gearshape
+    private var randomSymbol: String {
+        Bool.random() ? "figure.walk" : "house"
     }
 
     /// The intializer.

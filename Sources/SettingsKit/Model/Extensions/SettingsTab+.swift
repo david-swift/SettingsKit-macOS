@@ -5,7 +5,6 @@
 //  Created by david-swift on 09.10.2023.
 //
 
-import ColibriComponents
 import SwiftUI
 
 extension SettingsTab {
@@ -92,13 +91,13 @@ extension SettingsTab {
         actions {
             ToolbarGroup {
                 ToolbarAction(
-                    .init(localized: "Add", comment: "SettingsTab (Label of the standard \"Add\" action)"),
-                    systemSymbol: .plus,
+                    "Add",
+                    symbol: .init(systemName: "plus"),
                     action: add
                 )
                 ToolbarAction(
-                    .init(localized: "Remove", comment: "SettingsTab (Label of the standard \"Remove\" action)"),
-                    systemSymbol: .minus
+                    "Remove",
+                    symbol: .init(systemName: "minus")
                 ) {
                     let index = content.firstIndex { $0.id == SettingsModel.shared.selectedSubtabs[id] }
                     remove(content[safe: index]?.id, index)
@@ -108,11 +107,8 @@ extension SettingsTab {
             if let options {
                 ToolbarGroup {
                     ToolbarAction(
-                        .init(
-                            localized: "Options",
-                            comment: "SettingsTab (Label of the standard \"Options\" action)"
-                        ),
-                        systemSymbol: .ellipsis,
+                        "Options",
+                        symbol: .init(systemName: "ellipsis"),
                         action: options
                     )
                 }
@@ -136,15 +132,12 @@ extension SettingsTab {
         actions {
             ToolbarGroup {
                 ToolbarMenu(
-                    .init(
-                        localized: "Add",
-                        comment: "SettingsTab (Label of the standard \"Add\" action)"
-                    ),
-                    systemSymbol: .plus
+                    "Add",
+                    symbol: .init(systemName: "plus")
                 ) { add() }
                 ToolbarAction(
-                    .init(localized: "Remove", comment: "SettingsTab (Label of the standard \"Remove\" action)"),
-                    systemSymbol: .minus
+                    "Remove",
+                    symbol: .init(systemName: "minus")
                 ) {
                     let index = content.firstIndex { $0.id == SettingsModel.shared.selectedSubtabs[id] }
                     remove(content[safe: index]?.id, index)
@@ -154,11 +147,8 @@ extension SettingsTab {
             if let options {
                 ToolbarGroup {
                     ToolbarAction(
-                        .init(
-                            localized: "Options",
-                            comment: "SettingsTab (Label of the standard \"Options\" action)"
-                        ),
-                        systemSymbol: .ellipsis,
+                        "Options",
+                        symbol: .init(systemName: "ellipsis"),
                         action: options
                     )
                 }

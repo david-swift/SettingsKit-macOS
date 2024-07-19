@@ -31,17 +31,21 @@ public struct SettingsSubtab: Identifiable, View {
 
     /// The label of a custom tab, or else nil.
     public var label: Label<Text, Image>? {
-        guard case let .new(title: title, icon: icon) = type else {
+        guard case let .new(title: title, image: image) = type else {
             return nil
         }
-        return .init(title, systemSymbol: icon)
+        return .init {
+            Text(title)
+        } icon: {
+            image
+        }
     }
 
     /// The label for the sidebar style.
     @ViewBuilder public var sidebarLabel: some View {
-        if case let .new(title: title, icon: icon) = type {
+        if case let .new(title: title, image: image) = type {
             HStack {
-                Image(systemSymbol: icon)
+                image
                     .sidebarSettingsIcon(color: color)
                     .accessibilityHidden(true)
                 Text(title)

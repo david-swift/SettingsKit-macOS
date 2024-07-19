@@ -6,10 +6,9 @@
 //
 
 import SettingsKit
-import SFSafeSymbols
 import SwiftUI
 
-/// A simple app for testing the ``SettingsKit``.
+/// A simple app for testing the `SettingsKit`.
 @main
 struct TestAppApp: App {
 
@@ -41,7 +40,7 @@ struct TestAppApp: App {
             for settingsTab in appModel.allSettings {
                 settingsTab
             }
-            SettingsTab(.new(title: "Test", icon: .arrowLeftCircle), id: "test") {
+            SettingsTab(.new(title: "Test", image: .init(systemName: "arrow.left.circle")), id: "test") {
                 SettingsSubtab(.noSelection, id: "subtab") {
                     let width = 500.0
                     let height = 100.0

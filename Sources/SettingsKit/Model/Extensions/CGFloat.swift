@@ -23,7 +23,7 @@ extension CGFloat {
     /// The height of a custom toolbar.
     internal static var customToolbarHeight: Self { 40 }
     /// The padding of the actions in the sidebar.
-    internal static var actionsPadding: Self { 15 }
+    internal static var actionsPadding: Self { 10 }
 
 }
 

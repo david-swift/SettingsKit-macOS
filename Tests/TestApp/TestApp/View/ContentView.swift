@@ -17,12 +17,11 @@ struct ContentView: View {
             SettingsLink()
                 .labelStyle(.titleOnly)
         } else {
-            Button(.init(
-                "Show Settings",
-                comment: "ContentView (Button for showing the settings for testing purposes)"
-            ) ) {
+            // swiftlint:disable string_literals
+            Button("Show Settings") {
                 SettingsAction.showSettings()
             }
+            // swiftlint:enable string_literals
         }
     }
 

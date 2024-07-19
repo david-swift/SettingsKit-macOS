@@ -17,7 +17,7 @@ struct AccountView: View {
     /// The view's body.
     var body: some View {
         VStack(alignment: .center) {
-            Image(systemSymbol: .personFill)
+            Image(systemName: "person.fill")
                 .font(.system(size: 100))
                 .bold()
                 .foregroundStyle(.white)
