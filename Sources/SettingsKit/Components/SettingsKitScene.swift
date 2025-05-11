@@ -68,7 +68,9 @@ struct SettingsKitScene<Content>: Scene where Content: Scene {
     @available(macOS 13, *)
     private var navigationView: some View {
         NavigationView {
-            List(selection: .init { SettingsModel.shared.selectedTab } set: { model.selectedTab = $0 }) {
+            List(selection: .init { SettingsModel.shared.selectedTab } set: { tab in
+                DispatchQueue.main.asyncAfter(deadline: .now()) { model.selectedTab = tab }
+            }) {
                 Section {
                     ForEach(settings.filter { tab in
                         if case let .new(title: title, image: _) = tab.type {
